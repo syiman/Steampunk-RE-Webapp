@@ -2,20 +2,17 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	var onLoad = checkData();
 	$scope.rows = ["A"];
     $scope.columns = ["1"];
-	var rowNames = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "@", "#", "$", "%", "&", "=", "+", "~", ";", ">"];
-    var charPos = ["V29", "", "", "K38", "@36", "", "T29", "", "", "&37", "S22", "J32", "L31", "#39", "R17", "K35", "K37", "K36", "@39", "", "@34", "", "S40", "R28", "#36", "#37", "K31", "N33", "@35", "V28"];
-    var enemyPos = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "", "A11", "A12", "A13", "A14", "A15", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15", "B16", "C1", "C2", "C3", "C4", "C5", "C6"];
-    $scope.kaden = "IMG/kitsune.gif";
+	//$scope.kaden = "IMG/moth_flier.png";
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
     var colTimer = $interval(calcNumColumns, 250, 20);
     
     //Reroutes the user if they haven't logged into the app
     //Loads data from the DataService if they have
     function checkData(){
-    	if(DataService.getCharacters() == null)
+    	if(DataService.getEnemies() == null)
     		$location.path('/');
     	else{
-    		$scope.charaData = DataService.getCharacters();
+    		//$scope.charaData = DataService.getCharacters();
     		$scope.enemyData = DataService.getEnemies();
     	}
     };
@@ -29,9 +26,12 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if(map != null){
     		var height = map.naturalHeight; //calculate the height of the map
         	
-        	height -= 36;
-        	height = height / 34;
-        	var temp = rowNames.slice(0, height+1);
+        	//height -= 16;
+        	height = height / 16;
+        	var temp = [];
+        	
+        	for(var i = 0; i < height; i++)
+        		temp.push(i+1);
         	
         	if(temp.length != 0){
         		$interval.cancel(rowTimer); //cancel $interval timer
@@ -49,8 +49,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if(map != null){
     		var width = map.naturalWidth; //calculate the height of the map
         	
-        	width -= 36;
-        	width = width / 34;
+        	//width -= 16;
+        	width = width / 16;
         	var temp = [];
         	
         	for(var i = 0; i < width; i++)
@@ -98,7 +98,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Returns true if the enemy has a coordinate on the map
     //Units in the back of a pair up should have a coordinate of ""
     $scope.enemyHasPos = function(index){
-    	return enemyPos[index] != "";
+    	return $scope.enemyData[index][33-1].indexOf(",") != -1;
     };
     
     //Returns true if the currently loaded character is paired up with another character
@@ -109,7 +109,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     //Returns true if the enemy at index is paired up
     $scope.enemyIsPaired = function(index){
-    	return $scope.enemyData[index][2] != "None";
+    	var loc = $scope.enemyData[index][33-1];
+    	return loc != "" && loc.indexOf(",") == -1;
     };
     
     //Returns true if the unit at index is paired up
@@ -207,7 +208,6 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	return parseInt($scope.enemyData[index][stat]) >= 0;
     };
     
-    
     /* Calculates total buff/debuffs for each stat (str/mag/skl/etc) and
      * returns the appropriate text color as a hex value
      * red <- total<0
@@ -256,7 +256,9 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
      */
     $scope.determineEnemyStatColor = function(stat, index){
     	var color = "#E5C68D"; //default tan
-    	var locs = getEnemyBuffLocs(stat);
+    	return color;
+    	
+    	/*var locs = getEnemyBuffLocs(stat);
     	var debuff = locs[0];
     	var weaponBuff = locs[1]; 
     	var pairUp = locs[2];
@@ -272,7 +274,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		color = "#42adf4"; //blue buff
     	else if(totalBuffs < 0)
     		color = "#960000"; //red debuff
-    	return color;
+    	return color;*/
     };
     
     
@@ -389,30 +391,12 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Checks if a weapon name is a valid type, so that weapon proficiency can be displayed
     //Version for enemies
     $scope.existsEnemyWeapon = function(enemy,index){
-    	return compareWeaponName($scope.enemyData[enemy][index]);
+    	return $scope.enemyData[enemy][index] != "-";
     };
     
     //Helper function
     function compareWeaponName(weaponName){
     	return weaponName != "" && weaponName != "N/A";
-    };
-    
-    //Checks if the passed "type" is listed in the effectiveness column of a character's weapon
-    //(Ex. Flier, Monster, Beast, Dragon, Armor)
-    $scope.weaponEffective = function(index, type){
-    	if($scope.loadedChar == undefined) return false;
-    	
-    	var types = $scope.loadedChar[index][17];
-    	types = types.toLowerCase();
-    	return types.indexOf(type) != -1;
-    };
-    
-    //Checks if the passed "type" is listed in the effectiveness column of an enemy's weapon
-    //(Ex. Flier, Monster, Beast, Dragon, Armor)
-    $scope.enemyWeaponEffective = function(enemy, index, type){
-    	var types = $scope.enemyData[enemy][index][17];
-    	types = types.toLowerCase();
-    	return types.indexOf(type) != -1;
     };
     
     //Returns the weapon rank icon relevant to the passed weapon type
@@ -424,6 +408,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Returns the weapon rank icon relevant to the passed weapon type
     $scope.enemyWeaponIcon = function(enemy,index){
     	var w = $scope.enemyData[enemy][index];
+    	w = w.substring(2, w.length);
     	return getIcon(w);
     };
     
@@ -431,6 +416,11 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     function getIcon(weaponName){
     	var c = weaponName.toLowerCase();
     	return "IMG/rank_" + c + ".png";
+    };
+    
+    //Returns the first character in the passed string
+    $scope.formatWeaponRank = function(str){
+    	return str.substring(0,1);
     };
     
     //Calculates the percentage of weapon proficicency for a specific weapon,
@@ -473,7 +463,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     $scope.eWeaponHasDes = function(w, index){
-    	return $scope.enemyData[index][w].length == 20;
+    	return true;
+    	//return $scope.enemyData[index][w].length == 20;
     };
     
     //Returns true if the weapon at the index has a listed range
@@ -483,7 +474,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     $scope.eHasWeaponRange = function(w, index){
-    	return $scope.enemyData[index][w][18] != "";
+    	return true;
+    	//return $scope.enemyData[index][w][18] != "";
     };
     
     //Returns true if the weapon at the index has a listed rank
@@ -493,7 +485,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     $scope.eHasWeaponRank = function(w, index){
-    	return $scope.enemyData[index][w][4] != "";
+    	return true;
+    	//return $scope.enemyData[index][w][2] != "";
     };
     
     //Returns the icon for the class of the weapon at the index
@@ -509,6 +502,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Version for enemies
     $scope.getEnemyWeaponClassIcon = function(enemy,index){
     	var type = $scope.enemyData[enemy][index][1];
+    	if(type == undefined) return "";
+    	
     	type = type.toLowerCase();
     	return "IMG/type_" + type + ".png";
     };
@@ -540,9 +535,9 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     $scope.eFetchSkillImage = function(enemy, skl){
-		var skillName = $scope.enemyData[enemy][skl][0];
-    	if(skillName == "-") return "IMG/SKL/skl_blank.png"; //no skill
-    	else if(skl == 42) return "IMG/SKL/skl_personal.png"; //personal skill
+		//var skillName = $scope.enemyData[enemy][skl][0];
+    	//if(skillName == "-") return "IMG/SKL/skl_blank.png"; //no skill
+    	if(skl == 42) return "IMG/SKL/skl_personal.png"; //personal skill
     	
     	skillName = skillName.toLowerCase();
     	skillName = skillName.replace(/ /g,"_");
@@ -552,7 +547,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //For displaying enemy skill gems, checks to see if the enemy has a
     //skill name in that slot
     $scope.hasSkill = function(enemy,index){
-    	return $scope.enemyData[enemy][index][0] != "-";
+    	return $scope.enemyData[enemy][index] != "None";
     };
     
     $scope.checkShields = function(value){
@@ -571,16 +566,21 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	else return "IMG/emptyshield.png";
     };
     
+    $scope.enemyHasNum = function(index){
+    	var name = $scope.enemyData[index][0];
+    	if(name.lastIndexOf(" ") == -1 || name == undefined)
+    		return false;
+    	name = name.substring(name.lastIndexOf(" ")+1, name.length);
+    	if(name.match(/^[0-9]+$/) != null) return true;
+    	else return false;
+    };
+    
     //Parses an enemy's name to see if it contains a number at the end.
     //If it does, it returns that number
     $scope.getEnemyNum = function(index){
     	var name = $scope.enemyData[index][0];
-    	if(name.lastIndexOf(" ") == -1 || name == undefined)
-    		return "";
     	name = name.substring(name.lastIndexOf(" ")+1, name.length);
-    	
-    	if(name.match(/^[0-9]+$/) != null) return name;
-    	else return "";
+    	return "IMG/num_" + name + ".png";
     };
     
     //***********************\\
@@ -593,8 +593,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	var div = document.getElementById('char_'+index);
 		var x = div.style.left;
     	var y = div.style.top;
-    	x = parseInt(x.substring(0, x.length-2));
-    	y = parseInt(y.substring(0, y.length-2));
+    	x = parseInt(x.substring(0, x.length));
+    	y = parseInt(y.substring(0, y.length));
     	
     	if(x < 671) x += 40;	
     	else x -= 671;
@@ -608,54 +608,38 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     //Using a character's coordinates, calculates their horizontal
     //position on the map
-    $scope.determineX = function(index, num){
-    	var pos;
-    	if(num == 0) pos = charPos[index];
-    	else pos = enemyPos[index];
-    	if(pos == "") return "0px";
+    $scope.determineX = function(index){
+    	var pos = $scope.enemyData[index][33-1];
+    	var comma = pos.indexOf(",");
+    	if(comma == -1) return "0px";
     	
-    	pos = pos.substring(1,pos.length); //grab last 1-2 chars
+    	pos = pos.substring(0,comma); //grab first 1-2 chars
     	pos = parseInt(pos);
-    	return ((pos*34)+2) + "px";
+    	return ((pos*16)) + "px";
     };
     
     //Using a character's coordinates, calculates their vertical
     //position on the map
-    $scope.determineY = function(index, num){
-    	var pos;
-    	if(num == 0) pos = charPos[index];
-    	else pos = enemyPos[index];
-    	if(pos == "") return "0px";
+    $scope.determineY = function(index){
+    	var pos = $scope.enemyData[index][33-1];
+    	var comma = pos.indexOf(",");
+    	if(comma == -1) return "0px";
     	
-    	pos = pos.substring(0,1); //grab first char
-    	if(pos.match(/[A-Z]/i)) //If pos is a letter
-    		return (34*(pos.charCodeAt(0)-64)+2) + "px";
-    	
-    	switch(pos){
-    		case '@': pos = 27; break;
-    		case '#': pos = 28; break;
-    		case '$': pos = 29; break;
-    		case '%': pos = 30; break;
-    		case '&': pos = 31; break;
-    		case '=': pos = 32; break;
-    		case '+': pos = 33; break;
-    		case '~': pos = 34; break;
-    		case ';': pos = 35; break;
-    		case '>': pos = 36; break;
-    		default: pos = 0; break;
-    	}
-    	
-    	return ((pos*34)+2) + "px";
+    	pos = pos.substring(comma+1,pos.length); //grab last 1-2 chars
+    	pos = parseInt(pos);
+    	return ((pos*16)) + "px";
     };
     
     //Returns the vertical position of a glowBox element
     $scope.determineGlowY = function(index){
-    	return (((index+1)*34)+2) + "px";
+    	//return (((index+1)*34)+2) + "px";
+    	return (index*16) + "px";
     };
     
     //Returns the horizontal position of a glowBox element
     $scope.determineGlowX = function(index){
-    	return (index*34) + "px";
+    	//return (index*34) + "px";
+    	return (index*16) + "px";
     };
     
     //Calculates the vertical position of an enemy's information box,
@@ -692,7 +676,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     // OF CHAR INFO BOX        \\
     //*************************\\
     
-    function dragStart(event){
+    /*function dragStart(event){
     	var style = window.getComputedStyle(event.target, null);
         event.dataTransfer.setData("text/html",(parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY));
     };
@@ -720,5 +704,5 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     drag.addEventListener('dragstart',dragStart,false);
     drop.addEventListener('dragenter',dragEnter,false);
     drop.addEventListener('dragover',dragOver,false);
-    drop.addEventListener('drop',dropDiv,false);
+    drop.addEventListener('drop',dropDiv,false);*/
 }]);

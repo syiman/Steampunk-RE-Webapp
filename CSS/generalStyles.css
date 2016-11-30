@@ -12,8 +12,8 @@ body{
 }
 
 .charDiv{
-	height:32px;
-	width:32px;
+	height:16px;
+	width:16px;
 }
 
 .hoverImage:hover{
@@ -37,27 +37,27 @@ body{
 
 .healthBarBack{
 	position: absolute;
-	width: 28px;
+	width: 15px;
 	height: 2px;
-	left: 2px;
-	top: 28px;
+	left: 0px;
+	top: 13px;
 	background-color: dimgray;
 }
 
 .healthBarFront{
 	position: absolute;
 	height: 2px;
-	left: 2px;
-	top: 28px;
+	left: 0px;
+	top: 13px;
 	background-color: red;
 }
 
 .healthBarBorder{
 	position: absolute;
-	width: 27px;
+	width: 14px;
 	height: 1px;
-	left: 2px;
-	top: 28px;
+	left: 0px;
+	top: 13px;
 	border: 1px solid black;
 }
 
@@ -86,14 +86,21 @@ body{
 	margin-right:5px;
 }
 
+.enemyLvlClass{
+	font-size:12px;
+	position: absolute;
+	top: 5px;
+	right:5px;
+}
+
 .popOutTextSpacing{
 	margin-top:5px;
 }
 
 .glowBox{
 	position:absolute;
-	height:32px;
-	width:32px;
+	height:16px;
+	width:16px;
 	display:inline-block;
 }
 
@@ -103,7 +110,7 @@ body{
 }
 
 .glowBoxIndent{
-	margin-left:36px;
+	margin-left:0px;
 }
 
 .absolutePos{
