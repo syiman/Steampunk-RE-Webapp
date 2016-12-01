@@ -1,5 +1,4 @@
 .enemyInfo{
-	background-color: #DAAC5E;
 	width:483px;
 	height:197px;
 	font-family: "Verdana";
@@ -36,6 +35,25 @@
 .indentedEnemyStat{
 	position: absolute;
 	margin-left:50px;
+	margin-top:1px;
+}
+
+.indentedExp{
+	position: absolute;
+	margin-left:45px;
+	margin-top:1px;
+}
+
+.indentedGold{
+	position: absolute;
+	font-size:10px;
+	margin-left:30px;
+	margin-top:4px;
+}
+
+.indentedStatus{
+	position: absolute;
+	margin-left:86px;
 	margin-top:1px;
 }
 
@@ -98,6 +116,27 @@
 	height:19px;
 }
 
+.enemyExpPos{
+	margin-left:280px;
+	width:79px;
+	margin-top:149px;
+	height:19px;
+}
+
+.enemyGoldPos{
+	margin-left:280px;
+	width:79px;
+	margin-top:173px;
+	height:19px;
+}
+
+.enemyStatusPos{
+	margin-left:365px;
+	width:110px;
+	margin-top:173px;
+	height:19px;
+}
+
 .enemyShieldsPos{
 	margin-left:5px;
 	margin-top:120px;
@@ -133,7 +172,7 @@
 	font-size:12px;
 	margin-left:35px;
 	width:240px;
-	height:105px;
+	height:115px;
 }
 
 .enemyWeaponRankPos{
@@ -142,8 +181,35 @@
 	width:67px;
 }
 
+
 .eStatInfoPos{
 	width:150px;
 	margin-left:280px;
 	height:75px;
+}
+
+.itemNamePos{
+	top: 5px;
+}
+
+.itemRankPos{
+	top: 5px;
+	right: 0px;
+	text-align: right;
+}
+
+.itemMightPos{
+	top:20px;
+}
+
+.itemWeightPos{
+	top:35px;
+}
+
+.itemEffectPos{
+	top:50px;
+}
+
+.itemNotesPos{
+	top:65px;
 }

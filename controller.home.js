@@ -2,7 +2,6 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	var onLoad = checkData();
 	$scope.rows = ["A"];
     $scope.columns = ["1"];
-	//$scope.kaden = "IMG/moth_flier.png";
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
     var colTimer = $interval(calcNumColumns, 250, 20);
     
@@ -14,6 +13,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	else{
     		//$scope.charaData = DataService.getCharacters();
     		$scope.enemyData = DataService.getEnemies();
+    		$scope.map = DataService.getMap();
     	}
     };
     
@@ -109,8 +109,14 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     //Returns true if the enemy at index is paired up
     $scope.enemyIsPaired = function(index){
-    	var loc = $scope.enemyData[index][33-1];
-    	return loc != "" && loc.indexOf(",") == -1;
+    	var pair = $scope.enemyData[index][32];
+    	if(pair.indexOf(",") == -1 && pair.length > 0) return true;
+    	
+    	var name = $scope.enemyData[index][0];
+    	for(var i = 0; i < $scope.enemyData.length; i++)
+    		if($scope.enemyData[i][32] == name)
+    			return true;
+    	return false;
     };
     
     //Returns true if the unit at index is paired up
@@ -158,20 +164,29 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
      * ON SPRITE BEING HIDDEN
      */
     $scope.toggleEnemyPair = function(index){
-    	var pairUp = $scope.enemyData[index][2]; //get paired unit's name
+    	var name = $scope.enemyData[index][0]; //get unit's name
     	var found = false;
     	var inc = 0;
     	
-    	//Find paired unit
-    	while(!found && inc < $scope.enemyData.length){
-    		if($scope.enemyData[inc][0] == pairUp) found = true;
-    		else inc++;
-    	}
-    	
     	//Checks if the enemy the info box belongs to is hidden
     	var spriteHidden;
-    	if(enemyPos[index] == "") spriteHidden = true;
+    	if($scope.enemyData[index][32].indexOf(",") == -1) spriteHidden = true;
     	else spriteHidden = false;
+    	
+    	if(!spriteHidden){
+    		//Find pair for front unit
+        	while(!found && inc < $scope.enemyData.length){
+        		if($scope.enemyData[inc][32] == name) found = true;
+        		else inc++;
+        	}
+    	}else{
+    		//Find pair for back unit
+    		name = $scope.enemyData[index][32];
+        	while(!found && inc < $scope.enemyData.length){
+        		if($scope.enemyData[inc][0] == name) found = true;
+        		else inc++;
+        	}
+    	}
     	
     	//Collect info about the current info box and the info box to be displayed
     	var currBox = document.getElementById('enemy_' + index + '_box');
@@ -255,7 +270,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
      * tan <- total=0
      */
     $scope.determineEnemyStatColor = function(stat, index){
-    	var color = "#E5C68D"; //default tan
+    	var color = "#FFFFFF"; //default tan
     	return color;
     	
     	/*var locs = getEnemyBuffLocs(stat);
@@ -275,6 +290,30 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	else if(totalBuffs < 0)
     		color = "#960000"; //red debuff
     	return color;*/
+    };
+    
+    $scope.enemyHpDraw = function(index){
+    	current = parseInt($scope.enemyData[index][5]);
+    	total = parseInt($scope.enemyData[index][4]);
+    	if(current<total){
+    		return 1;
+    	}
+    	else{
+    		return 0;
+    	}
+    	
+    };
+    
+    $scope.determineHPColor = function(index){
+    	current = parseInt($scope.enemyData[index][5]);
+    	total = parseInt($scope.enemyData[index][4]);
+    	if(current<=total/4){
+    		return "#FF0000";
+    	}else if(current<=total/2){
+    		return "#FFFF00";
+    	}else{
+    		return "#00FF00";
+    	}
     };
     
     
@@ -436,6 +475,18 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	return (progress/total) * 30; //30 is the max number of pixels
     };
     
+    $scope.filterItemName = function(enemy, weapon){
+    	var w = $scope.enemyData[enemy][weapon][0];
+    	if(w.indexOf("(") == -1) return w;
+    	else return w.substring(0, w.indexOf("(")-1);
+    };
+    
+    $scope.filterItemUses = function(enemy, weapon){
+    	var w = $scope.enemyData[enemy][weapon][0];
+    	if(w.indexOf("(") == -1) return "-";
+    	else return w.substring(w.indexOf("(")+1, w.indexOf(")"));
+    };
+    
     //Checks to see if the weapon name in the passed slot is null
     //Version for characters
     $scope.validWeapon = function(index){
@@ -547,7 +598,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //For displaying enemy skill gems, checks to see if the enemy has a
     //skill name in that slot
     $scope.hasSkill = function(enemy,index){
-    	return $scope.enemyData[enemy][index] != "None";
+    	return $scope.enemyData[enemy][index][0] != "None";
     };
     
     $scope.checkShields = function(value){
@@ -575,12 +626,36 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	else return false;
     };
     
+    $scope.enemyHasStatus = function(index){
+    	var status = $scope.enemyData[index][29];
+    	if(status != "None") return true;
+    	else return false;
+    };
+    
     //Parses an enemy's name to see if it contains a number at the end.
     //If it does, it returns that number
     $scope.getEnemyNum = function(index){
     	var name = $scope.enemyData[index][0];
     	name = name.substring(name.lastIndexOf(" ")+1, name.length);
     	return "IMG/num_" + name + ".png";
+    };
+    
+    $scope.getEnemyStatus = function(index){
+    	var status = $scope.enemyData[index][29];
+    	if(status == "Doomed"){
+    		return "IMG/Status/s_" + status + $scope.enemyData[index][30] +".png";
+    	}
+    	else
+    		return "IMG/Status/s_" + status + ".png";
+    };
+    
+    $scope.getEnemyStatusType = function(index){
+    	var status = $scope.enemyData[index][29];
+    	if(status == "None"){
+    		return "Normal Status";
+    	}
+    	else
+    		return status;
     };
     
     //***********************\\
@@ -615,7 +690,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	
     	pos = pos.substring(0,comma); //grab first 1-2 chars
     	pos = parseInt(pos);
-    	return ((pos*16)) + "px";
+    	return ((pos*16))-16 + "px";
     };
     
     //Using a character's coordinates, calculates their vertical
@@ -627,7 +702,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	
     	pos = pos.substring(comma+1,pos.length); //grab last 1-2 chars
     	pos = parseInt(pos);
-    	return ((pos*16)) + "px";
+    	return ((pos*16))-16 + "px";
     };
     
     //Returns the vertical position of a glowBox element
@@ -669,6 +744,23 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if(enemyLeft + left < 0) left = 37;
     	
     	return left + "px";
+    };
+    
+    $scope.determineInfoColor = function(index){
+    	var aff = $scope.enemyData[index][1];
+    	
+    	if(aff == "Immolan Guard"){
+    		return "#E01616";
+    	}
+    	else if(aff == "Cow"){
+    		
+    	}
+    	else if(aff == "Anna is a bum"){
+    		
+    	}
+    	else{
+    		return "#3850e0";
+    	}
     };
     
     //*************************\\

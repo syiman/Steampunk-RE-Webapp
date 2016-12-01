@@ -3,6 +3,15 @@ body{
 	width:100%;
 }
 
+img{
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
 .mapBox{
 	position:absolute;
 	top:0px;
@@ -26,12 +35,12 @@ body{
 }
 
 .hoverBrown:hover{
-	background-color: #965b1f !important;
+	background-color: #808080!important;
 	cursor: pointer !important;
 }
 
 .hoverTan:hover{
-	background-color: #f2e4cc !important;
+	background-color: #e1e1e1!important;
 	cursor: pointer !important;
 }
 
@@ -47,9 +56,9 @@ body{
 .healthBarFront{
 	position: absolute;
 	height: 2px;
-	left: 0px;
+	left: 1px;
 	top: 13px;
-	background-color: red;
+	background-color: #00ff00;
 }
 
 .healthBarBorder{
@@ -118,11 +127,9 @@ body{
 }
 
 .mapCharCentered{
-	margin: auto;
+	
 	position: absolute;
-	left:0;
-	right: 0;
-	top: 0;
+	left: 0;
 	bottom: 0;  
 }
 
@@ -151,16 +158,17 @@ body{
 .centerText{ text-align: center; }
 .rightText{ text-align: right; }
 .whiteText{ color: white; }
-.redText{ color: #491107; }
-.tanText{ color: #E5C68D; }
+.redText{ color: #464646; }
+.tanText{ color: #ffffff; }
 .boldText{ font-weight: bold; }
 .italicText{ font-style: italic; }
 
-.navy{ background-color: #332F40; }
-.paleTan{ background-color: #E5C68D; }
-.lightTan{ background-color: #e5d0aa; }
-.darkTan{ background-color: #BA7228; }
-.olive{ background-color: #490200; }
+.navy{ background-color: #808080; }
+.paleTan{ background-color: #c0c0c0; }
+.lightTan{ background-color: #c0c0c0; }
+.darkTan{ background-color: #808080; }
+.darkerTan{ background-color: #646464; }
+.olive{ background-color: #808080; }
 .lightGreen{ background-color: #39af2b; }
-.green{ background-color: #216619; opacity: 0.95;}
+.green{ background-color: #454545; opacity: 0.95;}
 .blackBorder{ border: 1px solid black; }

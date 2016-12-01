@@ -22,7 +22,7 @@
 .authBoxBlurred{
 	filter: blur(15px);
 	opacity: 0.8;
-	background-color: white;
+	background-color: grey;
 }
 
 .authText{
@@ -56,12 +56,12 @@
  	border-radius: 10px;
  	border: 0px;
  	box-shadow: none;
- 	background-color: #003051;
+ 	background-color: #220028;
  	color: white;
 }
 
 .authButton:hover{
-	background-color: #0063a7;
+	background-color: #7B009F;
 	cursor: pointer;
 }
 
@@ -78,12 +78,12 @@ progress::-webkit-progress-bar{
 }
 
 progress::-webkit-progress-value {
-	background-color: #003051;
+	background-color: #220028;
 	border-radius:5px;
 }
 
 progress::-moz-progress-bar {
-	background-color: #003051;
+	background-color: #220028;
 	border-radius:5px;
 }
 

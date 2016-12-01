@@ -35,27 +35,40 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	}).then(function(){
     		authorizeDiv.style.display = 'none';
     		loadingDiv.style.display = 'inline';
-    		fetchCharacterData();
+    		fetchMapURL();
     	});
     };
     
+    function fetchMapURL(){
+    	gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: sheetId,
+            majorDimension: "COLUMNS",
+            valueRenderOption: "FORMULA",
+            range: 'Current Map!A1',
+          }).then(function(response) {
+        	  var url = response.result.values[0][0];
+        	  DataService.setMap(processImgUrl(url));
+        	  //updateProgressBar(); //update progress bar
+        	  fetchCharacterData();
+          });
+    	
+    };
+    
     function pickLoadingIcon(){
-    	var rand = Math.floor((Math.random() * 14) + 1); //generate a number between one and twelve
+    	var rand = Math.floor((Math.random() * 12) + 1); //generate a number between one and twelve
     	switch(rand){
-	    	case 1: return "IMG/cavalier.gif"; break;
-	    	case 2: return "IMG/darkmage.gif"; break;
-	    	case 3: return "IMG/diviner.gif"; break;
-	    	case 4: return "IMG/fighter.gif"; break;
-	    	case 5: return "IMG/kitsune.gif"; break;
-	    	case 6: return "IMG/knight.gif"; break;
-	    	case 7: return "IMG/ninja.gif"; break;
-	    	case 8: return "IMG/samurai.gif"; break;
-	    	case 9: return "IMG/spearfighter.gif"; break;
-	    	case 10: return "IMG/thief.gif"; break;
-	    	case 11: return "IMG/archer.gif"; break;
-	    	case 12: return "IMG/skyknight.gif"; break;
-	    	case 13: return "IMG/wolfskin.gif"; break;
-	    	case 14: return "IMG/troubadour.gif"; break;
+	    	case 1: return "IMG/gif_1.gif"; break;
+	    	case 2: return "IMG/gif_2.gif"; break;
+	    	case 3: return "IMG/gif_3.gif"; break;
+	    	case 4: return "IMG/gif_4.gif"; break;
+	    	case 5: return "IMG/gif_5.gif"; break;
+	    	case 6: return "IMG/gif_6.gif"; break;
+	    	case 7: return "IMG/gif_7.gif"; break;
+	    	case 8: return "IMG/gif_8.gif"; break;
+	    	case 9: return "IMG/gif_9.gif"; break;
+	    	case 10: return "IMG/gif_10.gif"; break;
+	    	case 11: return "IMG/gif_11.gif"; break;
+	    	case 12: return "IMG/gif_12.gif"; break;
     	}
     };
 
@@ -77,7 +90,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
   	  gapi.client.sheets.spreadsheets.values.get({
          spreadsheetId: sheetId,
          majorDimension: "ROWS",
-         range: 'Weapon Index!A2:K',
+         range: 'Weapon Index!A2:L',
       }).then(function(response) {
     	  wIndex = response.result.values;
 	      updateProgressBar(); //update progress bar
@@ -108,14 +121,43 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
           }).then(function(response) {
           	 skillDescriptions = response.result.values;
           	 updateProgressBar(); //update progress bar
-          	 processCharData();
-          	 redirect();
+          	fetchPlayerImageData();
           });
+    };
+    
+    //Fetch image URLs and append them to characterData
+    function fetchPlayerImageData(){
+    	gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: sheetId,
+            majorDimension: "ROWS",
+            valueRenderOption: "FORMULA",
+            range: 'Player Stats!B3:3',
+        }).then(function(response) {
+        	charImages = response.result.values[0];
+         	updateProgressBar(); //update progress bar
+         	fetchEnemyImageData();
+        });
+    };
+    
+    function fetchEnemyImageData(){
+    	gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: sheetId,
+            majorDimension: "ROWS",
+            valueRenderOption: "FORMULA",
+            range: 'Enemy Stats!B3:3',
+        }).then(function(response) {
+        	charImages = charImages.concat(response.result.values[0]);
+         	updateProgressBar(); //update progress bar
+         	processCharData();
+         	redirect();
+        });
     };
     
     function processCharData(){
      	 for(var i = 0; i < characterData.length; i++){
      		
+     		characterData[i].push(processImgUrl(charImages[i]));
+     		 
      		 //Replace character skills
      		for(var j = 18; j < 23; j++)
                 characterData[i][j] = findSkill(characterData[i][j]);
@@ -144,7 +186,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     function findWeapon(name){
     	if(name == "")
-    		return [name, "Mystery", "E", "0", "0", "0", "0", "0", "0", "0|0", "I'm a blank item!"];
+    		return [name, "Unknown", "E", "0", "0", "0", "0", "0", "0", "0|0", "I'm a blank item!"];
     	
     	//Remove parenthesis from end of name
     	if(name.indexOf("(") != -1)
@@ -154,7 +196,18 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	for(var i = 0; i < wIndex.length; i++)
     		if(wIndex[i][0] == name)
     			return wIndex[i].slice();
-    	return [name, "Mystery", "E", "0", "0", "0", "0", "0", "0", "0|0", "Could not locate item."];
+    	return [name, "Unknown", "?", "?", "?", "?", "?", "?", "?", "?|?", "Could not locate item. Please contact Deallocate"];
+    };
+    
+    function processImgUrl(str){
+    	var start = str.indexOf("\"")+1;
+		var end = str.lastIndexOf("\"");
+		var url = str.substring(start, end);
+		 
+		//Append "s" to "http" if needed
+		if(url.substring(0,5) != "https")
+			url = url.substring(0,4) + "s" + url.substring(4,url.length);
+		return url; 
     };
     
     function fetch(){
