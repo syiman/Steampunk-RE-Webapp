@@ -1,21 +1,19 @@
 app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', function ($scope, $location, $interval, DataService) {
-	var onLoad = checkData();
 	$scope.rows = ["A"];
     $scope.columns = ["1"];
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
     var colTimer = $interval(calcNumColumns, 250, 20);
+    var dragNDrop = $interval(initializeListeners, 250, 20);
     
     //Reroutes the user if they haven't logged into the app
     //Loads data from the DataService if they have
-    function checkData(){
-    	if(DataService.getEnemies() == null)
-    		$location.path('/');
-    	else{
-    		//$scope.charaData = DataService.getCharacters();
-    		$scope.enemyData = DataService.getEnemies();
-    		$scope.map = DataService.getMap();
-    	}
-    };
+    if(DataService.getEnemies() == null)
+    	$location.path('/');
+    else{
+    	//$scope.charaData = DataService.getCharacters();
+    	$scope.enemyData = DataService.getEnemies();
+    	$scope.map = DataService.getMap();
+    }
     
     /* Using the height of the map image, calculates the number of tiles tall
      * the map is and returns a subsection of the rowNames array of that size.
@@ -68,21 +66,36 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     // INFO BOX                \\
     //*************************\\
     
-    //Sets the character to display in the information box
-    $scope.displayData = function(index){
-    	if($scope.loadedChar == undefined)
-    		positionCharBox(index);
+    $scope.toggleView = function(index){
+    	var id = 'viewInfo_' + index;
+    	if ($scope[id] == undefined) { $scope[id] = true; }
+    	else { $scope[id] = !$scope[id]; }
     	
-    	//Close the box if you click the same character again
-    	if($scope.loadedChar == $scope.charaData[index])
-    		$scope.loadedChar = undefined;
-    	else 
-    		$scope.loadedChar = $scope.charaData[index];
+    	if($scope[id] == true)
+    		setEInfoPos(index);
     };
     
-    //Removes the character being displayed in the info box and hides it
-    $scope.removeData = function(){
-    	$scope.loadedChar = undefined;
+    function setEInfoPos(index){
+    	var enemy = document.getElementById('enemy_'+index);
+    	var box = document.getElementById('enemy_' + index + "_box");
+    	var map = document.getElementById('map');
+		var x = enemy.style.left;
+    	var y = enemy.style.top;
+    	x = parseInt(x.substring(0, x.length));
+    	y = parseInt(y.substring(0, y.length));
+    	
+    	x += 21; 
+    	if(y < 100) y += 20;
+    	else y -= 80;
+    	
+    	box.style.left = x + 'px';
+    	box.style.top = y + 'px';
+    }
+    
+    $scope.checkToggle = function(enemy){
+    	enemy = 'viewInfo_' + enemy;
+    	if ($scope[enemy] == undefined) { return false; }
+    	else { return $scope[enemy]; }
     };
     
     //********************\\
@@ -290,6 +303,15 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	else if(totalBuffs < 0)
     		color = "#960000"; //red debuff
     	return color;*/
+    };
+    
+    $scope.determineItemColor = function(index,item){
+    	var name = $scope.enemyData[index][item][0];
+    	
+    	if(name.indexOf("(D)")!=-1){
+    		return "#008000";
+    	}
+    	return "#000000";
     };
     
     $scope.enemyHpDraw = function(index){
@@ -541,19 +563,18 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     //Returns the icon for the class of the weapon at the index
-    //Version for characters
-    $scope.getWeaponClassIcon = function(index){
-    	if($scope.loadedChar == undefined) return false;
-    	var type = $scope.loadedChar[index][1];
-    	type = type.toLowerCase();
-    	return "IMG/type_" + type + ".png";
-    };
-    
-    //Returns the icon for the class of the weapon at the index
     //Version for enemies
     $scope.getEnemyWeaponClassIcon = function(enemy,index){
     	var type = $scope.enemyData[enemy][index][1];
+    	var name = $scope.enemyData[enemy][index][0];
     	if(type == undefined) return "";
+    	if(name.indexOf("(")!=-1){
+    		name = name.substring(0,name.indexOf("(")-1);
+    	}
+    	
+    	if(name == "Turkey"){
+    		return "IMG/Items/item_turkey.png";
+    	}
     	
     	type = type.toLowerCase();
     	return "IMG/type_" + type + ".png";
@@ -663,24 +684,6 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     // FOR VARIOUS THINGS    \\
     //***********************\\
     
-    //Relocate the information box relative to the clicked char
-    function positionCharBox(index){
-    	var div = document.getElementById('char_'+index);
-		var x = div.style.left;
-    	var y = div.style.top;
-    	x = parseInt(x.substring(0, x.length));
-    	y = parseInt(y.substring(0, y.length));
-    	
-    	if(x < 671) x += 40;	
-    	else x -= 671;
-    	
-    	if(y < 77) y += 40;
-    	else y -= 77;
-    	
-    	drag.style.left = x + 'px';
-    	drag.style.top = y + 'px';
-    };
-    
     //Using a character's coordinates, calculates their horizontal
     //position on the map
     $scope.determineX = function(index){
@@ -717,35 +720,6 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	return (index*16) + "px";
     };
     
-    //Calculates the vertical position of an enemy's information box,
-    //relative to the enemy itself
-    $scope.displayEInfoY = function(index){
-    	var enemy = document.getElementById('enemy_'+index);
-    	var map = document.getElementById('map');
-    	var pageBottom = map.naturalHeight;
-    	var top = -69;
-    	var enemyTop = enemy.style.top;
-    	enemyTop = parseInt(enemyTop.substring(0,enemyTop.length-2));
-    	
-    	if(enemyTop < 90) top = 0;
-    	else if(enemyTop + 109 > pageBottom) top = -1* (pageBottom - enemyTop);
-    	
-    	return top + "px";
-    };
-    
-    //Calculates the horiztonal position of an enemy's information box, relative
-    //to the enemy itself
-    $scope.displayEInfoX = function(index){
-    	var enemy = document.getElementById('enemy_'+index);
-    	var enemyLeft = enemy.style.left;
-    	enemyLeft = parseInt(enemyLeft.substring(0,enemyLeft.length-2));
-    	var left = -488;
-    	
-    	if(enemyLeft + left < 0) left = 37;
-    	
-    	return left + "px";
-    };
-    
     $scope.determineInfoColor = function(index){
     	var aff = $scope.enemyData[index][1];
     	
@@ -767,9 +741,11 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     // SUPPORT FOR DRAGABILITY \\
     // OF CHAR INFO BOX        \\
     //*************************\\
+    var currDrag = "";
     
-    /*function dragStart(event){
+    function dragStart(event){
     	var style = window.getComputedStyle(event.target, null);
+    	currDrag = event.target.id;
         event.dataTransfer.setData("text/html",(parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY));
     };
     
@@ -784,17 +760,32 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     function dropDiv(event){
     	event.preventDefault();
-    	var drag = document.getElementById('infoBox');
-    	var offset = event.dataTransfer.getData("text/html").split(',');
-    	drag.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
-    	drag.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+    	var data = event.dataTransfer.getData("text/html").split(',');
+
+    	var drag = document.getElementById(currDrag);
+    	drag.style.left = (event.clientX + parseInt(data[0],10)) + 'px';
+    	drag.style.top = (event.clientY + parseInt(data[1],10)) + 'px';
+    	currDrag = "";
     };
     
-    //Set event listeners to be activated when the div is dragged
-    var drag = document.getElementById('infoBox');
-    var drop = document.getElementById('dropArea');
-    drag.addEventListener('dragstart',dragStart,false);
-    drop.addEventListener('dragenter',dragEnter,false);
-    drop.addEventListener('dragover',dragOver,false);
-    drop.addEventListener('drop',dropDiv,false);*/
+    function initializeListeners(){
+    	var test = document.getElementById('enemy_0_box');
+    	if($scope.enemyData != undefined && test != null){
+    		test.addEventListener('dragstart',dragStart,false);
+    		
+    		//Set event listeners to be activated when the div is dragged
+    	    for(var i = 1; i < $scope.enemyData.length; i++){
+    	    	var drag = document.getElementById('enemy_' + i + '_box');
+    	    	drag.addEventListener('dragstart',dragStart,false);
+    	    }
+    	    
+    	    //Set event listeners
+    	    var drop = document.getElementById('dropArea');
+    	    drop.addEventListener('dragenter',dragEnter,false);
+    	    drop.addEventListener('dragover',dragOver,false);
+    	    drop.addEventListener('drop',dropDiv,false);
+    	    
+    	    $interval.cancel(dragNDrop); //cancel $interval timer
+    	}
+    };
 }]);

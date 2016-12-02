@@ -1,10 +1,20 @@
 .enemyInfo{
+	position: absolute;
 	width:483px;
 	height:197px;
+	left:0px;
+	top:0px;
 	font-family: "Verdana";
 	font-size:14px;
 	box-shadow: 1px 1px 10px black;
 	z-index:2;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	/* Required to make elements draggable in old WebKit */
+	-khtml-user-drag: element;
+    -webkit-user-drag: element;
 }
 
 .enemyInfo:hover{
@@ -19,10 +29,14 @@
 }
 
 .enemyBar{
-	right:10px;
+	left:0px;
 	top:-20px;
 	height:20px;
-	width:38px;
+	width:483px;
+}
+
+.enemyBar:hover{
+	cursor: move;
 }
 
 .enemyStatLabel{
