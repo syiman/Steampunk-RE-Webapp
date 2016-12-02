@@ -186,7 +186,7 @@
 	font-size:12px;
 	margin-left:35px;
 	width:240px;
-	height:115px;
+	height:125px;
 }
 
 .enemyWeaponRankPos{
@@ -203,7 +203,8 @@
 }
 
 .itemNamePos{
-	top: 5px;
+	font-size: 14px !important;
+	top: 4px;
 }
 
 .itemRankPos{
@@ -213,17 +214,25 @@
 }
 
 .itemMightPos{
-	top:20px;
+	top:25px;
 }
 
 .itemWeightPos{
-	top:35px;
+	top:40px;
 }
 
 .itemEffectPos{
-	top:50px;
+	top:60px;
 }
 
 .itemNotesPos{
-	top:65px;
+	top:75px;
 }
+.customDivider{
+	position:absolute;
+	width:96%;
+	height:1px;
+	left:2%;
+	background-color: white;	
+}
+})

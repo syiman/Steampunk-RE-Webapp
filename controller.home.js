@@ -484,6 +484,16 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	return str.substring(0,1);
     };
     
+    $scope.formatItemRank = function(str){
+    	
+    	if(str[1]=="Consumable"){
+    		return str[1];
+    	}
+    	else{
+    		return str[2] + "-" + str[1];
+    	}
+    };
+    
     //Calculates the percentage of weapon proficicency for a specific weapon,
     //then returns the width of the progress bar in pixels
     $scope.calcWeaponExp = function(index){
