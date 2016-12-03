@@ -6,6 +6,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     $scope.loadingIcon = pickLoadingIcon();
     var bar = document.getElementById('progress'); 
     var characterData, charImages, wIndex, charSkills, skillDescriptions;
+    var blurbs;
     
     //Set div visibility
     var authorizeDiv = document.getElementById('authorize-div');
@@ -80,10 +81,21 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
         range: 'Stats!A1:37',
       }).then(function(response) {
     	 characterData = response.result.values;
-    	 updateProgressBar(); //update progress bar
-    	 fetchWeaponIndex();
+    	 fetchCharacterBlurb();
       });
     };
+    
+    function fetchCharacterBlurb() {
+        gapi.client.sheets.spreadsheets.values.get({
+          spreadsheetId: sheetId,
+          majorDimension: "COLUMNS",
+          range: 'Stats!A105:105',
+        }).then(function(response) {
+         blurbs = response.result.values;
+      	 updateProgressBar(); //update progress bar
+      	 fetchWeaponIndex();
+        });
+      };
     
     function fetchWeaponIndex(){
   	  //Fetch weapon information sheet
@@ -168,6 +180,8 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
      			info[0] = characterData[i][k]; //replace old name
      			characterData[i][k] = info;
      	 	}
+     		
+     		characterData[i].push(blurbs[i]);
      	 }
      	 
      	 DataService.setEnemies(characterData); //save compiled data

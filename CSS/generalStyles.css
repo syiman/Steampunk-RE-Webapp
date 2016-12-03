@@ -39,6 +39,11 @@ img{
 	cursor: pointer !important;
 }
 
+.hoverBlack:hover{
+	background-color: #969696!important;
+	cursor: pointer !important;
+}
+
 .hoverTan:hover{
 	background-color: #e1e1e1!important;
 	cursor: pointer !important;
@@ -82,6 +87,10 @@ img{
 
 .popOutHeader{
 	margin-top:5px;
+}
+
+.popOutBlurb{
+	margin-top:-5px;
 }
 
 .popOutBody{

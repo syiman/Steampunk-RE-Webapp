@@ -37,7 +37,7 @@
 			</div>
 		</div>
 		<!--Name-->
-		<div class="infoElement navy whiteText enemyNamePos">
+		<div class="infoElement navy whiteText enemyNamePos hoverBlack" ng-mouseenter="Name=true" ng-mouseleave="Name=false">
 			<span class="boldText popOutText popOutHeader">{{enemy[0]}}</span>
 			<span class="popOutText" style="top:19px">Lv. {{enemy[16]}} {{enemy[3]}}</span>
 		</div>
@@ -169,6 +169,14 @@
 				<img ng-src="{{enemyWeaponIcon($index,36)}}" style="display:inline-block">
 				<div class="weaponRankLtrPos tanText">{{formatWeaponRank(enemy[36])}}</div>
 			</span>
+		</div>
+	
+		<!--Unit Name Info Boxes-->
+		<div ng-if="Name" class="infoElement green whiteText enemyBlurbPos" style="margin-top:5px">
+		<div class="popOutText popOutBlurb"><p><b>{{enemy[0]}}</b><br>
+		{{enemy[38][0]}}</p>
+		<p><b>{{enemy[3]}}</b><br>
+		[classInfo]</p></div>
 		</div>
 	
 		<!--Skill Gem Info Boxes-->

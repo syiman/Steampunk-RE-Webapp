@@ -736,11 +736,17 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if(aff == "Immolan Guard"){
     		return "#E01616";
     	}
-    	else if(aff == "Cow"){
-    		
+    	else if(aff == "Environment"){
+    		return "#000000";
+    	}
+    	else if(aff == "Reaper"){
+    		return "#000000";
+    	}
+    	else if(aff == "The World"){
+    		return "#000000";
     	}
     	else if(aff == "Anna is a bum"){
-    		
+    		return "true dat";
     	}
     	else{
     		return "#3850e0";
