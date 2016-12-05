@@ -192,7 +192,7 @@
 	font-size:12px;
 	margin-left:35px;
 	width:240px;
-	height:125px;
+	height:140px;
 }
 
 .enemyWeaponRankPos{
@@ -232,7 +232,7 @@
 }
 
 .itemNotesPos{
-	top:75px;
+	top:90px;
 }
 .customDivider{
 	position:absolute;
