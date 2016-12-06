@@ -1,9 +1,11 @@
 <div id="dropArea" class="mapBox mainBackground">
 	<img id="map" class="absolutePos" ng-src="{{map}}">
 	
+	<input type="text" my-enter="toggleGrid()">    
+	
 	<!--Draw tile names-->
 	<div ng-repeat="(yIndex,row) in rows" class="glowBoxIndent absolutePos" ng-style="{top: determineGlowY(yIndex)}">
-		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="{{column}},{{row}}" ng-style="{left: determineGlowX(indexX)}"></div>
+		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="{{column}},{{row}}" ng-class="{glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
 	</div>
 	
 	<!--Draw enemies-->

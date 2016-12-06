@@ -55,7 +55,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     function pickLoadingIcon(){
-    	var rand = Math.floor((Math.random() * 12) + 1); //generate a number between one and twelve
+    	var rand = Math.floor((Math.random() * 11) + 1); //generate a number between one and twelve
     	switch(rand){
 	    	case 1: return "IMG/gif_1.gif"; break;
 	    	case 2: return "IMG/gif_2.gif"; break;
@@ -64,11 +64,10 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	    	case 5: return "IMG/gif_5.gif"; break;
 	    	case 6: return "IMG/gif_6.gif"; break;
 	    	case 7: return "IMG/gif_7.gif"; break;
-	    	case 8: return "IMG/gif_8.gif"; break;
-	    	case 9: return "IMG/gif_9.gif"; break;
-	    	case 10: return "IMG/gif_10.gif"; break;
-	    	case 11: return "IMG/gif_11.gif"; break;
-	    	case 12: return "IMG/gif_12.gif"; break;
+	    	case 8: return "IMG/gif_9.gif"; break;
+	    	case 9: return "IMG/gif_10.gif"; break;
+	    	case 10: return "IMG/gif_11.gif"; break;
+	    	case 11: return "IMG/gif_12.gif"; break;
     	}
     };
 

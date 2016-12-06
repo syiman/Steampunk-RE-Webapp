@@ -1,9 +1,11 @@
 app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', function ($scope, $location, $interval, DataService) {
 	$scope.rows = ["A"];
     $scope.columns = ["1"];
+    $scope.showGrid = 1;
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
     var colTimer = $interval(calcNumColumns, 250, 20);
     var dragNDrop = $interval(initializeListeners, 250, 20);
+    
     
     //Reroutes the user if they haven't logged into the app
     //Loads data from the DataService if they have
@@ -14,6 +16,29 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	$scope.enemyData = DataService.getEnemies();
     	$scope.map = DataService.getMap();
     }
+   
+    app.directive('myEnter', function () {
+        return function (scope, element, attrs) {
+            element.bind("keydown keypress", function (event) {
+                if(event.which === 13) {
+                    scope.$apply(function (){
+                        scope.$eval(attrs.myEnter);
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+    
+    function toggleGrid(){
+    	if($scope.showGrid == 2){
+    		$scope.showGrid = 0;
+    	}
+    	else{
+    		$scope.showGrid+=1;
+    	}
+    };
     
     /* Using the height of the map image, calculates the number of tiles tall
      * the map is and returns a subsection of the rowNames array of that size.
@@ -486,7 +511,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     $scope.formatItemRank = function(str){
     	
-    	if(str[1]=="Consumable"){
+    	if(str[1]=="Consumable" || str[1]=="Item"){
     		return str[1];
     	}
     	else{

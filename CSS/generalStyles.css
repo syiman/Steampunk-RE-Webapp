@@ -139,7 +139,19 @@ img{
 	height:16px;
 	width:16px;
 	display:inline-block;
+	
+}
+
+.glowBoxBorder0{
+	border: 0px solid rgba(0, 0, 0, .08);
+}
+
+.glowBoxBorder1{
 	border: 1px solid rgba(0, 0, 0, .08);
+}
+
+.glowBoxBorder2{
+	border: 1px solid rgba(0, 0, 0, .5);
 }
 
 .glowBox:hover{
