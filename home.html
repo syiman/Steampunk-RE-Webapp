@@ -1,4 +1,4 @@
-<div id="dropArea" class="mapBox">
+<div id="dropArea" class="mapBox mainBackground">
 	<img id="map" class="absolutePos" ng-src="{{map}}">
 	
 	<!--Draw tile names-->
@@ -38,8 +38,9 @@
 		</div>
 		<!--Name-->
 		<div class="infoElement navy whiteText enemyNamePos hoverBlack" ng-mouseenter="Name=true" ng-mouseleave="Name=false">
-			<span class="boldText popOutText popOutHeader">{{enemy[0]}}</span>
-			<span class="popOutText" style="top:19px">Lv. {{enemy[16]}} {{enemy[3]}}</span>
+			<span class="boldText popOutText popOutHeader" >{{enemy[0]}}</span>
+			<span class="popOutText popOutHeader"  style="right:0px">Lv. {{enemy[16]}} </span>
+			<span class="popOutText" style="top:19px">{{enemy[3][0]}} </span>
 		</div>
 		<!--HP-->
 		<div class="infoElement darkTan tanText enemyHpMovPos" style="margin-left:5px;width:92px;">
@@ -65,7 +66,7 @@
 		</div>
 		
 		<!--Status-->
-		<div class="infoElement darkerTan tanText enemyStatusPos">
+		<div class="infoElement darkerTan tanText enemyStatusPos hoverStatus" ng-mouseenter="StatusOver=true" ng-mouseleave="StatusOver=false">
 			<span class="enemyStatLabel">{{getEnemyStatusType($index)}}</span>
 			<span class="indentedStatus">{{enemy[30]}}</span>
 		</div>
@@ -175,8 +176,18 @@
 		<div ng-if="Name" class="infoElement green whiteText enemyBlurbPos" style="margin-top:5px">
 		<div class="popOutText popOutBlurb"><p><b>{{enemy[0]}}</b><br>
 		{{enemy[38][0]}}</p>
-		<p><b>{{enemy[3]}}</b><br>
-		[classInfo]</p></div>
+		<p><b>{{enemy[3][0]}}</b><br>
+		{{enemy[3][1]}}</p></div>
+		</div>
+		
+		<!--Status Effect Info Boxes-->
+		<div ng-if="StatusOver" class="infoElement green whiteText enemyStatusPopPos" style="margin-top:110px">
+			<span class="enemyStatusPopLabel"><b>{{getEnemyStatusType($index)}}</b>
+			<span ng-if="enemyHasStatus($index)"><b> for {{enemy[30]}} turns</b></span>
+			<br>
+			<span ng-if="enemyHasStatus($index)"> Type: {{enemy[29][2]}}<br></span>
+			<span> Effect: {{enemy[29][1]}}</span>
+			</span>
 		</div>
 	
 		<!--Skill Gem Info Boxes-->

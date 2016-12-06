@@ -5,8 +5,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     var sheetId = '16z6l4rfiOPMszGe3sWg1fRylMzD8D_Qld_HgfYyyu5g';
     $scope.loadingIcon = pickLoadingIcon();
     var bar = document.getElementById('progress'); 
-    var characterData, charImages, wIndex, charSkills, skillDescriptions;
-    var blurbs;
+    var characterData, charImages, wIndex, charSkills, skillDescriptions, classStats, statusEffData, blurbs;
     
     //Set div visibility
     var authorizeDiv = document.getElementById('authorize-div');
@@ -160,6 +159,32 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
         }).then(function(response) {
         	charImages = charImages.concat(response.result.values[0]);
          	updateProgressBar(); //update progress bar
+         	fetchClassData();
+        });
+    };
+    
+    function fetchClassData(){
+    	gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: sheetId,
+            majorDimension: "ROWS",
+            //valueRenderOption: "FORMULA",
+            range: 'Class Stats!A2:AI',
+        }).then(function(response) {
+        	classStats = response.result.values;
+         	updateProgressBar(); //update progress bar
+         	fetchStatusData();
+        });
+    };
+    
+    function fetchStatusData(){
+    	gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: sheetId,
+            majorDimension: "ROWS",
+            //valueRenderOption: "FORMULA",
+            range: 'Status Effects!A2:D',
+        }).then(function(response) {
+        	statusEffData = response.result.values;
+         	updateProgressBar(); //update progress bar
          	processCharData();
          	redirect();
         });
@@ -181,12 +206,40 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
      			characterData[i][k] = info;
      	 	}
      		
+     		characterData[i][3] = classUpdate(i);
+     		
+     		characterData[i][29] = statusUpdate(i);
+     		
      		characterData[i].push(blurbs[i]);
      	 }
      	 
      	 DataService.setEnemies(characterData); //save compiled data
     };
 
+    function classUpdate(id){  
+    	name = characterData[id][3];
+    	if(name == "Transporter"){
+    		name = "Transporter (Wagon)";
+    	}
+    	for(var i = 0;i < classStats.length;i++){
+    		if(classStats[i][0]==name){
+    			return [characterData[id][3], classStats[i][34]];
+    		}
+    	}
+    	return [name, "Class description not found."];
+    }
+    
+    function statusUpdate(id){  
+    	name = characterData[id][29];
+
+    	for(var i = 0;i < statusEffData.length;i++){
+    		if(statusEffData[i][0]==name){
+    			return [name, statusEffData[i][2],statusEffData[i][3]];
+    		}
+    	}
+    	return [name, "Status effect description not found.","???"];
+    }
+    
     //Search for skill
     function findSkill(skill){
     	if(skill == "None")

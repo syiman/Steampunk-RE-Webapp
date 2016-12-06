@@ -46,6 +46,13 @@
 	margin-top:4px;
 }
 
+.enemyStatusPopLabel{
+	position: absolute;
+	font-size:10px;
+	margin-left:7px;
+	margin-top:4px;
+}
+
 .indentedEnemyStat{
 	position: absolute;
 	margin-left:50px;
@@ -119,7 +126,7 @@
 }
 
 .enemyNamePos{
-	width:185px;
+	width:140px;
 	height:38px;
 	margin-left:5px;
 	margin-top:5px;
@@ -174,6 +181,12 @@
 	margin-left:195px;
 	width:275px;
 	height:187px;
+}
+
+.enemyStatusPopPos{
+	margin-left:184px;
+	width:175px;
+	height:82px;
 }
 
 .enemyStatPos{

@@ -658,7 +658,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     $scope.enemyHasStatus = function(index){
-    	var status = $scope.enemyData[index][29];
+    	var status = $scope.enemyData[index][29][0];
     	if(status != "None") return true;
     	else return false;
     };
@@ -672,7 +672,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     $scope.getEnemyStatus = function(index){
-    	var status = $scope.enemyData[index][29];
+    	var status = $scope.enemyData[index][29][0];
     	if(status == "Doomed"){
     		return "IMG/Status/s_" + status + $scope.enemyData[index][30] +".png";
     	}
@@ -681,7 +681,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     $scope.getEnemyStatusType = function(index){
-    	var status = $scope.enemyData[index][29];
+    	var status = $scope.enemyData[index][29][0];
     	if(status == "None"){
     		return "Normal Status";
     	}

@@ -1,3 +1,14 @@
+.mainBackground{
+	position:absolute;
+	background-image: url("../IMG/background.png");
+    background-repeat: repeat;
+    background-size: 25%;
+	height:100%;
+	width:100%;
+	top:0px;
+	left:0px;
+}
+
 body{
 	height:100%;
 	width:100%;
@@ -36,17 +47,18 @@ img{
 
 .hoverBrown:hover{
 	background-color: #808080!important;
-	cursor: pointer !important;
 }
 
 .hoverBlack:hover{
 	background-color: #969696!important;
-	cursor: pointer !important;
 }
 
 .hoverTan:hover{
 	background-color: #e1e1e1!important;
-	cursor: pointer !important;
+}
+
+.hoverStatus:hover{
+	background-color: #757575!important;
 }
 
 .healthBarBack{
