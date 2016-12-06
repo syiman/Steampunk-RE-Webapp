@@ -116,6 +116,13 @@ img{
 	margin-right:5px;
 }
 
+.popOutLevel{
+	font-size:11px;
+	position: absolute;
+	margin-left:5px;
+	margin-right:5px;
+}
+
 .enemyLvlClass{
 	font-size:12px;
 	position: absolute;
