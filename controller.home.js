@@ -767,10 +767,13 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		return "#000000";
     	}
     	else if(aff == "Reaper"){
-    		return "#000000";
+    		return "#E900E9";
     	}
-    	else if(aff == "The World"){
-    		return "#000000";
+    	else if(aff == "Loveless"){
+    		return "#9D009D";
+    	}
+    	else if(aff == "Whimsy" || aff == "Cupidity"){
+    		return "#089000";
     	}
     	else if(aff == "Anna is a bum"){
     		return "true dat";
