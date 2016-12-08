@@ -5,7 +5,10 @@
 	
 	<!--Draw tile names-->
 	<div ng-repeat="(yIndex,row) in rows" class="glowBoxIndent absolutePos" ng-style="{top: determineGlowY(yIndex)}">
-		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="{{column}},{{row}}" ng-class="{glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
+		<script>
+			terrainData = terrainFinder(column,row);
+		</script>
+		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="({{column}},{{row}}) {{terrainData[column][row]}}" ng-class="{glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
 	</div>
 	
 	<!--Draw enemies-->

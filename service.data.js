@@ -11,4 +11,7 @@ app.service('DataService', ['$location', function ($location) {
 	
 	this.getMap = function(){ return map; };
 	this.setMap = function(s){ map = s; };
+	
+	this.getTerrain = function(){ return terrainData;};
+	this.setTerrain = function(s){ terrainData = s;};
 }]);

@@ -1,5 +1,5 @@
 app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', function ($scope, $location, $interval, DataService) {
-	$scope.rows = ["A"];
+	$scope.rows = ["1"];
     $scope.columns = ["1"];
     $scope.showGrid = 1;
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
@@ -15,6 +15,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	//$scope.charaData = DataService.getCharacters();
     	$scope.enemyData = DataService.getEnemies();
     	$scope.map = DataService.getMap();
+    	$scope.terrainData = DataService.getTerrain();
     }
    
     app.directive('myEnter', function () {
@@ -39,6 +40,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		$scope.showGrid+=1;
     	}
     };
+    
     
     /* Using the height of the map image, calculates the number of tiles tall
      * the map is and returns a subsection of the rowNames array of that size.

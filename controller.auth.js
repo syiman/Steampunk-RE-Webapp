@@ -1,11 +1,12 @@
 app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', function ($scope, $location, $interval, DataService) {
     var id = fetch();
     $scope.ready = false;
+    var terrainData = [];
     var checkGapi = $interval(checkAuth, 250);
     var sheetId = '16z6l4rfiOPMszGe3sWg1fRylMzD8D_Qld_HgfYyyu5g';
     $scope.loadingIcon = pickLoadingIcon();
     var bar = document.getElementById('progress'); 
-    var characterData, charImages, wIndex, charSkills, skillDescriptions, classStats, statusEffData, blurbs;
+    var characterData, charImages, wIndex, charSkills, skillDescriptions, classStats, statusEffData, blurbs, terrain;
     
     //Set div visibility
     var authorizeDiv = document.getElementById('authorize-div');
@@ -103,7 +104,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
          range: 'Weapon Index!A2:L',
       }).then(function(response) {
     	  wIndex = response.result.values;
-	      updateProgressBar(); //update progress bar
+	      	updateProgressBar(); //update progress bar
 	      fetchSkillInfo();
       });
     };
@@ -117,7 +118,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
             range: 'Stats!A19:P23',
           }).then(function(response) {
         	  charSkills = response.result.values;
-        	  updateProgressBar(); //update progress bar
+        	  	updateProgressBar(); //update progress bar
         	  fetchSkillDesc();
           });
     };
@@ -130,7 +131,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
             range: 'Skills!A2:E',
           }).then(function(response) {
           	 skillDescriptions = response.result.values;
-          	 updateProgressBar(); //update progress bar
+          	 	updateProgressBar(); //update progress bar
           	fetchPlayerImageData();
           });
     };
@@ -144,7 +145,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
             range: 'Player Stats!B3:3',
         }).then(function(response) {
         	charImages = response.result.values[0];
-         	updateProgressBar(); //update progress bar
+         		updateProgressBar(); //update progress bar
          	fetchEnemyImageData();
         });
     };
@@ -157,7 +158,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
             range: 'Enemy Stats!B3:3',
         }).then(function(response) {
         	charImages = charImages.concat(response.result.values[0]);
-         	updateProgressBar(); //update progress bar
+         		updateProgressBar(); //update progress bar
          	fetchClassData();
         });
     };
@@ -171,9 +172,40 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
         }).then(function(response) {
         	classStats = response.result.values;
          	updateProgressBar(); //update progress bar
-         	fetchStatusData();
+         	fetchTerrainChart();
         });
     };
+    
+    function fetchTerrainChart(){
+    	  //Fetch terrain information sheet
+    	  gapi.client.sheets.spreadsheets.values.get({
+           spreadsheetId: sheetId,
+           majorDimension: "ROWS",
+           range: 'Terrain Locations!A2:B',
+        }).then(function(response) {
+      	  terrain = response.result.values;
+      	  
+      	  //Initialize terrianData with "Plain" for all cells
+	      for(var a = 0;a <= 32;a++){
+	    	terrainData.push([]);
+			for(var b = 0;b <= 32;b++)
+				terrainData[a].push("Plain");
+	      }
+      	  
+      	  for(var i = 0;i < terrain.length;i++){
+    		var tempColumn = parseInt(terrain[i][0].substring(0,terrain[i][0].indexOf(",")));
+    		var tempRow = parseInt(terrain[i][0].substring(terrain[i][0].indexOf(",")+1,terrain.length));
+    		
+    		//if(tempColumn <= 32 && tempRow <= 32)
+    			terrainData[tempColumn][tempRow] = terrain[i][1];
+    		
+      	  }
+      	  
+	      DataService.setTerrain(terrainData);
+  	      updateProgressBar(); //update progress bar
+  	      fetchStatusData();
+        });
+      };
     
     function fetchStatusData(){
     	gapi.client.sheets.spreadsheets.values.get({
@@ -181,7 +213,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
             majorDimension: "ROWS",
             //valueRenderOption: "FORMULA",
             range: 'Status Effects!A2:D',
-        }).then(function(response) {
+        }).	then(function(response) {
         	statusEffData = response.result.values;
          	updateProgressBar(); //update progress bar
          	processCharData();
