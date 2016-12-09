@@ -1,7 +1,7 @@
 <div id="dropArea" class="mapBox mainBackground">
+	<!-- <input type="text" my-enter="toggleGrid()">  -->
 	<img id="map" class="absolutePos" ng-src="{{map}}">
-	
-	<input type="text" my-enter="toggleGrid()">    
+	<img class="absolutePos" ng-src="{{getTimeOut()}}" style="top:512px">
 	
 	<!--Draw tile names-->
 	<div ng-repeat="(yIndex,row) in rows" class="glowBoxIndent absolutePos" ng-style="{top: determineGlowY(yIndex)}">
@@ -73,6 +73,13 @@
 			<span class="enemyStatLabel">{{getEnemyStatusType($index)}}</span>
 			<span class="indentedStatus">{{enemy[30]}}</span>
 		</div>
+		
+		<!-- Weakness Icons -->
+		<span class="indentedEWeaknessIcon" title="{{enemyData[$index][3][2][0]}}" style="margin-left:151px; top:5px" ng-if="validWeakness($index,0)"><img ng-src="{{getWeakness($index,0)}}"/></span>
+		<span class="indentedEWeaknessIcon" title="{{enemyData[$index][3][2][1]}}" style="margin-left:171px; top:5px" ng-if="validWeakness($index,1)"><img ng-src="{{getWeakness($index,1)}}"/></span>
+		<span class="indentedEWeaknessIcon" title="{{enemyData[$index][3][2][2]}}" style="margin-left:151px; top:25px" ng-if="validWeakness($index,2)"><img ng-src="{{getWeakness($index,2)}}"/></span>
+		<span class="indentedEWeaknessIcon" title="{{enemyData[$index][3][2][3]}}" style="margin-left:171px; top:25px" ng-if="validWeakness($index,3)"><img ng-src="{{getWeakness($index,3)}}"/></span>
+		
 		
 		<!--Skill Gems-->
 		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill1=true" ng-mouseleave="Skill1=false" style="margin-top:72px">

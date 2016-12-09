@@ -248,16 +248,47 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
 
     function classUpdate(id){  
+    	var temp;
+    	var exporter;
     	name = characterData[id][3];
     	if(name == "Transporter"){
     		name = "Transporter (Wagon)";
     	}
+    	
     	for(var i = 0;i < classStats.length;i++){
     		if(classStats[i][0]==name){
-    			return [characterData[id][3], classStats[i][34]];
+    			temp =  [characterData[id][3], classStats[i][34]];
+    			var weaknesses = classStats[i][24];
+    			var weakList = [];
+    			
+    			if(characterData[id][1] == "Reaper"){
+    				weakList.push("Reaper");
+    			}
+    			if(characterData[id][1] == "Loveless"){
+    				weakList.push("Loveless");
+    			}
+
+    			while(weaknesses.indexOf(",")!=-1){
+    				var weakTemp = weaknesses.substring(0,weaknesses.indexOf(","));
+    				weaknesses = weaknesses.substring(weaknesses.indexOf(",")+2,weaknesses.length);
+    				
+    				weakList.push(weakTemp.trim());
+    			}
+
+    			
+    			//Grab last element if it exists
+    			if(weaknesses.length > 0){
+    				weaknesses = weaknesses;
+    				weakList.push(weaknesses);
+    			}
+    			
+    			temp.push(weakList);
+    			return temp;
     		}
     	}
-    	return [name, "Class description not found."];
+    	
+    	//If no class information could be found, return default
+    	return [name, "Class description not found.", []];
     }
     
     function statusUpdate(id){  

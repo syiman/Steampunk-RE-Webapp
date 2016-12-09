@@ -105,6 +105,10 @@
 	margin-top:4px;
 }
 
+.indentedEWeaknessIcon{
+	position:absolute;
+}
+
 .indentedEnemySkill{
 	position:absolute;
 	margin-left:10px;

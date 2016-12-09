@@ -506,6 +506,10 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	return "IMG/rank_" + c + ".png";
     };
     
+    $scope.getTimeOut= function(){
+    	return "IMG/time_out.png";
+    };
+    
     //Returns the first character in the passed string
     $scope.formatWeaponRank = function(str){
     	return str.substring(0,1);
@@ -564,6 +568,17 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if(weaponName != "")
     		return true;
     	else return false;
+    };
+    
+    $scope.validWeakness = function(enemy, index){
+    	var weakness = $scope.enemyData[enemy][3][2][index];
+    	if(weakness == "" || weakness == undefined || weakness == "NPC-only")
+    		return false;
+    	else return true;
+    };
+    
+    $scope.getWeakness = function(enemy, index){
+    	return "IMG/Weakness/weak_" + $scope.enemyData[enemy][3][2][index] + ".png";
     };
     
     //Returns true if the weapon at the index has a description
@@ -764,7 +779,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		return "#E01616";
     	}
     	else if(aff == "Environment"){
-    		return "#000000";
+    		return "#FFFFFF";
     	}
     	else if(aff == "Reaper"){
     		return "#E900E9";
