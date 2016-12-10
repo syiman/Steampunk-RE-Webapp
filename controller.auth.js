@@ -5,6 +5,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     var checkGapi = $interval(checkAuth, 250);
     var sheetId = '16z6l4rfiOPMszGe3sWg1fRylMzD8D_Qld_HgfYyyu5g';
     $scope.loadingIcon = pickLoadingIcon();
+    $scope.loadingText = pickLoadingText();
     var bar = document.getElementById('progress'); 
     var characterData, charImages, wIndex, charSkills, skillDescriptions, classStats, statusEffData, blurbs, terrain;
     
@@ -69,6 +70,22 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	    	case 9: return "IMG/gif_10.gif"; break;
 	    	case 10: return "IMG/gif_11.gif"; break;
 	    	case 11: return "IMG/gif_12.gif"; break;
+    	}
+    };
+    
+    function pickLoadingText(){
+    	var rand = Math.floor((Math.random() * 10) + 1);
+    	switch(rand){
+	    	case 1: return "Fetching map data..."; break;
+	    	case 2: return "Trying hard to not crash..."; break;
+	    	case 3: return "Totally not hacking your PC..."; break;
+	    	case 4: return "Installing virus.exe..."; break;
+	    	case 5: return "ERROR: 404     (jk)"; break;
+	    	case 6: return "Handing enemies pointy weapons..."; break;
+	    	case 7: return "Soon (TM)"; break;
+	    	case 8: return "Fixing stuff IronPegasus broke..."; break;
+	    	case 9: return "Breaking the game balance even more..."; break;
+	    	case 10: return "Loading..."; break;
     	}
     };
 
