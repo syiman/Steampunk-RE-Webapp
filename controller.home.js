@@ -2,6 +2,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	$scope.rows = ["1"];
     $scope.columns = ["1"];
     $scope.showGrid = 1;
+    var numDefeat = 0;
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
     var colTimer = $interval(calcNumColumns, 250, 20);
     var dragNDrop = $interval(initializeListeners, 250, 20);
@@ -138,6 +139,9 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Returns true if the enemy has a coordinate on the map
     //Units in the back of a pair up should have a coordinate of ""
     $scope.enemyHasPos = function(index){
+    	if($scope.enemyData[index][33-1]=="Defeated"){
+    		return 1;
+    	}
     	return $scope.enemyData[index][33-1].indexOf(",") != -1;
     };
     
@@ -150,7 +154,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Returns true if the enemy at index is paired up
     $scope.enemyIsPaired = function(index){
     	var pair = $scope.enemyData[index][32];
-    	if(pair.indexOf(",") == -1 && pair.length > 0) return true;
+    	if(pair.indexOf(",") == -1 && pair.length > 0 && pair != "Defeated") return true;
     	
     	var name = $scope.enemyData[index][0];
     	for(var i = 0; i < $scope.enemyData.length; i++)
@@ -527,15 +531,42 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     //Calculates the percentage of weapon proficicency for a specific weapon,
     //then returns the width of the progress bar in pixels
-    $scope.calcWeaponExp = function(index){
-    	if($scope.loadedChar == undefined) return 0;
+    $scope.calcWeaponExp = function(index, p){
+    	var exp = $scope.enemyData[index][p];
+    	var progress = 0;
+    	var total = 10;
+    	if(exp<10){
+    		//E
+    		progress = exp;
+    		total = 10;
+    	}
+    	else if(exp<30){
+    		//D
+    		progress = exp-10;
+    		total = 20;
+    	}
+    	else if(exp<60){
+    		//C
+    		progress = exp-30;
+    		total = 30;
+    	}
+    	else if(exp<100){
+    		//B
+    		progress = exp-60;
+    		total = 40;
+    	}
+    	else if(exp<150){
+    		//A
+    		progress = exp-100;
+    		total = 50;
+    	}
+    	else{
+    		//S
+    		progress = 1;
+    		total = 1;
+    	}
     	
-    	var exp = $scope.loadedChar[index];
-    	var slash = exp.indexOf("/");
-    	var progress = parseInt(exp.substring(0,slash));
-    	var total = parseInt(exp.substring(slash+1,exp.length));
-    	
-    	return (progress/total) * 30; //30 is the max number of pixels
+    	return ((progress/total) * 30) + 'px'; //30 is the max number of pixels
     };
     
     $scope.filterItemName = function(enemy, weapon){
@@ -626,6 +657,9 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	
     	if(name == "Turkey"){
     		return "IMG/Items/item_turkey.png";
+    	}
+    	if(name == "Door Key" || name == "Chest Key" || name == "Master Key"){
+    		return "IMG/type_key.png";
     	}
     	
     	type = type.toLowerCase();
@@ -740,8 +774,15 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //position on the map
     $scope.determineX = function(index){
     	var pos = $scope.enemyData[index][33-1];
+    	if(index == 0) numDefeat = 0;
+    	
+    	if(pos == "Defeated"){
+    		
+    		return (((((numDefeat-1)%30)+2)*16))-16 + "px";
+    	}
+    	
     	var comma = pos.indexOf(",");
-    	if(comma == -1) return "0px";
+    	if(comma == -1) return "-1px";
     	
     	pos = pos.substring(0,comma); //grab first 1-2 chars
     	pos = parseInt(pos);
@@ -752,8 +793,12 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //position on the map
     $scope.determineY = function(index){
     	var pos = $scope.enemyData[index][33-1];
+    	if(pos == "Defeated"){
+    		numDefeat +=1;
+    		return (35+Math.floor((numDefeat-1)/30))*16-16+"px";
+    	}
     	var comma = pos.indexOf(",");
-    	if(comma == -1) return "0px";
+    	if(comma == -1) return "-1px";
     	
     	pos = pos.substring(comma+1,pos.length); //grab last 1-2 chars
     	pos = parseInt(pos);

@@ -77,7 +77,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
       gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: sheetId,
         majorDimension: "COLUMNS",
-        range: 'Stats!A1:37',
+        range: 'Stats!A1:44',
       }).then(function(response) {
     	 characterData = response.result.values;
     	 fetchCharacterBlurb();

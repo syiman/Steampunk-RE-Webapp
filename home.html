@@ -12,7 +12,7 @@
 	<div class="absolutePos charDiv" ng-style="{top: determineY($index), left: determineX($index)}" ng-repeat="enemy in enemyData" ng-click="toggleView($index)" id="enemy_{{$index}}">
 		<div ng-show="enemyHasPos($index)" class="hoverImage charDiv" id="enemy_{{$index}}_sprite">
 			<div class="charDiv" class="mapCharOffsetNone">
-				<img ng-src="{{enemy[37]}}" class="mapCharCentered">
+				<img ng-src="{{enemy[44]}}" class="mapCharCentered">
 				<img ng-if="enemyHasNum($index)" ng-src="{{getEnemyNum($index)}}" class="enemyNum">
 				<img ng-if="enemyHasStatus($index)" ng-src="{{getEnemyStatus($index)}}" class="enemyNum">
 			</div>
@@ -167,25 +167,31 @@
 			<span style="position:relative">
 				<img ng-src="{{enemyWeaponIcon($index,34)}}" style="display:inline-block">
 				<div class="weaponRankLtrPos tanText">{{formatWeaponRank(enemy[34])}}</div>
+				<div class="weaponRankBackground"></div>
+				<div class="weaponRankBar" ng-style="{width: calcWeaponExp($index,39)}"></div>
 			</span>
 		</div>
 		<div ng-if="existsEnemyWeapon($index,35)" title="{{enemyData[$index][35]}} Rank" class="infoElement enemyWeaponRankPos" style="margin-left:404px">
 			<span style="position:relative">
 				<img ng-src="{{enemyWeaponIcon($index,35)}}" style="display:inline-block">
 				<div class="weaponRankLtrPos tanText">{{formatWeaponRank(enemy[35])}}</div>
+				<div class="weaponRankBackground"></div>
+				<div class="weaponRankBar" ng-style="{width: calcWeaponExp($index,41)}"></div>
 			</span>
 		</div>
 		<div ng-if="existsEnemyWeapon($index,36)" title="{{enemyData[$index][36]}} Rank" class="infoElement enemyWeaponRankPos" style="margin-left:440px">
 			<span style="position:relative">
 				<img ng-src="{{enemyWeaponIcon($index,36)}}" style="display:inline-block">
 				<div class="weaponRankLtrPos tanText">{{formatWeaponRank(enemy[36])}}</div>
+				<div class="weaponRankBackground"></div>
+				<div class="weaponRankBar" ng-style="{width: calcWeaponExp($index,43)}"></div>
 			</span>
 		</div>
 	
 		<!--Unit Name Info Boxes-->
 		<div ng-if="Name" class="infoElement green whiteText enemyBlurbPos" style="margin-top:5px">
 		<div class="popOutText popOutBlurb"><p><b>{{enemy[0]}}</b><br>
-		{{enemy[38][0]}}</p>
+		{{enemy[45][0]}}</p>
 		<p><b>{{enemy[3][0]}}</b><br>
 		{{enemy[3][1]}}</p></div>
 		</div>

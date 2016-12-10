@@ -35,18 +35,20 @@
 .weaponRankBar{
 	position: absolute;
 	height: 3px;
+	top: 16px;
 	left: 0px;
 	bottom: -3px;
-	background-color:red;
+	background-color:#c0c0c0;
 }
 
 .weaponRankBackground{
 	position: absolute;
 	width: 30px;
 	height: 3px;
+	top: 16px;
 	left: 0px;
 	bottom: -3px;
-	background-color:#944F24;
+	background-color:dimgray;
 }
 
 .indentedStatLabel{
