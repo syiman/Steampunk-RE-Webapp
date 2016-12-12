@@ -1,12 +1,34 @@
 <div id="dropArea" class="mapBox mainBackground">
+
+
+
 	<!-- <input type="text" my-enter="toggleGrid()">  -->
 	<img id="map" class="absolutePos" ng-src="{{map}}">
-	<img class="absolutePos" ng-src="{{getTimeOut()}}" style="top:512px">
 	
 	<!--Draw tile names-->
 	<div ng-repeat="(yIndex,row) in rows" class="glowBoxIndent absolutePos" ng-style="{top: determineGlowY(yIndex)}">
 		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="({{column}},{{row}}) {{terrainData[column][row]}}" ng-class="{glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
 	</div>
+	
+	<img class="absolutePos" ng-src="{{getTimeOut()}}" style="top:512px">
+	
+	<audio controls loop>
+  		<source src="MUS/backgroundMusic.mp3" type="audio/mpeg">
+		Your browser does not support the audio element.
+	</audio>
+	 
+	<button class="buttonMusicStyle buttonHover" ng-click="toggleMusic()">
+	 Music: Main Theme
+	</button>
+	
+	<button class="buttonGridStyle buttonHover" ng-click="toggleGrid()">
+	 Grid Style: 
+	 <div ng-if="showGrid==0">None</div>
+	 <div ng-if="showGrid==1">Thin</div>
+	 <div ng-if="showGrid==2">Thick</div>
+	</button>
+	
+	
 	
 	<!--Draw enemies-->
 	<div class="absolutePos charDiv" ng-style="{top: determineY($index), left: determineX($index)}" ng-repeat="enemy in enemyData" ng-click="toggleView($index)" id="enemy_{{$index}}">

@@ -1,3 +1,49 @@
+.buttonMusicStyle{
+	position: absolute;
+	width: 125px; 
+	top: 595px;
+	left: 3px;
+	height: 32px;
+	
+ 	border: 0px;
+ 	box-shadow: none;
+ 	background-color: #fafafa;
+ 	color: #505050;
+ 	font-family: "Verdana";
+	font-size:10px;
+	text-align: left;
+}
+
+audio { 
+	position: absolute;
+	display: block; 
+	width: 312px;
+	margin:0px; 
+	color: #808080!important;
+	top: 595px;
+	left: 128px;
+	
+}
+
+.buttonGridStyle{
+	position: absolute;
+	width: 69px; 
+	top: 595px;
+	left: 440px;
+	height: 32px;
+	
+ 	border: 0px;
+ 	box-shadow: none;
+ 	background-color: #fafafa;
+ 	color: #505050;
+ 	font-family: "Verdana";
+	font-size:10px;
+}
+
+.buttonHover:hover{
+	background-color: #c0c0c0;
+}
+
 .mainBackground{
 	position:absolute;
 	background-image: url("../IMG/background.png");

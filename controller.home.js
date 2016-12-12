@@ -2,6 +2,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	$scope.rows = ["1"];
     $scope.columns = ["1"];
     $scope.showGrid = 1;
+    $scope.musicTrack = 0;
     var numDefeat = 0;
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
     var colTimer = $interval(calcNumColumns, 250, 20);
@@ -33,12 +34,21 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
         };
     });
     
-    function toggleGrid(){
+    $scope.toggleGrid = function() {
     	if($scope.showGrid == 2){
     		$scope.showGrid = 0;
     	}
     	else{
     		$scope.showGrid+=1;
+    	}
+    };
+    
+    $scope.toggleMusic = function() {
+    	if($scope.musicTrack == 2){
+    		$scope.musicTrack = 0;
+    	}
+    	else{
+    		$scope.musicTrack+=1;
     	}
     };
     
@@ -232,22 +242,14 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
         	}
     	}
     	
-    	//Collect info about the current info box and the info box to be displayed
-    	var currBox = document.getElementById('enemy_' + index + '_box');
-    	var currBoxScope = angular.element(currBox).scope();
-    	var pairBox = document.getElementById('enemy_' + inc + '_box');
-    	var pairBoxScope = angular.element(pairBox).scope();
-    	
     	//Toggle visibility
-    	currBoxScope.viewInfo = false;
-    	pairBoxScope.viewInfo = true;
+    	$scope.toggleView(index);
+    	$scope.toggleView(inc);
     	
-    	//If the sprite is not hidden (enemy is in front of pair up), relocate paired unit's info box
-    	if(!spriteHidden){
-    		var currEnemy = document.getElementById('enemy_' + index);
-    		pairBox.style.top = (currBox.offsetTop + currEnemy.offsetTop) + 'px';
-        	pairBox.style.left = (currBox.offsetLeft + currEnemy.offsetLeft) + 'px';
-    	}
+    	var currBox = document.getElementById('enemy_' + index + '_box');
+    	var pairBox = document.getElementById('enemy_' + inc + '_box');
+    	pairBox.style.top = currBox.offsetTop + 'px';
+        pairBox.style.left = currBox.offsetLeft + 'px';
     };
     
     //***********************\\
@@ -874,15 +876,15 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	currDrag = "";
     };
     
-    function initializeListeners(){
+    function initializeListeners(){;
     	var test = document.getElementById('enemy_0_box');
     	if($scope.enemyData != undefined && test != null){
     		test.addEventListener('dragstart',dragStart,false);
     		
     		//Set event listeners to be activated when the div is dragged
     	    for(var i = 1; i < $scope.enemyData.length; i++){
-    	    	var drag = document.getElementById('enemy_' + i + '_box');
-    	    	drag.addEventListener('dragstart',dragStart,false);
+    	    	var box = document.getElementById('enemy_' + i + '_box');
+    	    	box.addEventListener('dragstart',dragStart,false);
     	    }
     	    
     	    //Set event listeners
