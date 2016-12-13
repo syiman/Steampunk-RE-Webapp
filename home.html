@@ -7,25 +7,31 @@
 	
 	<!--Draw tile names-->
 	<div ng-repeat="(yIndex,row) in rows" class="glowBoxIndent absolutePos" ng-style="{top: determineGlowY(yIndex)}">
-		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="({{column}},{{row}}) {{terrainData[column][row]}}" ng-class="{glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
+		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="({{column}},{{row}}) {{terrainData[column][row]}}" ng-class="{glowBoxBorder3:showGrid==3, glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
 	</div>
 	
 	<img class="absolutePos" ng-src="{{getTimeOut()}}" style="top:512px">
 	
-	<audio controls loop>
-  		<source src="MUS/backgroundMusic.mp3" type="audio/mpeg">
+	<audio id = 'audio' controls loop>
+  		<source ng-if="musicTrack==0" src="MUS/musicAgustria.mp3" type="audio/mpeg">
+  		<source ng-if="musicTrack==1" src="MUS/themeFallacy.mp3" type="audio/mpeg">
 		Your browser does not support the audio element.
 	</audio>
 	 
 	<button class="buttonMusicStyle buttonHover" ng-click="toggleMusic()">
-	 Music: Main Theme
+	 Music: 
+	 <div ng-if="musicTrack==0">Agustria Party Rock Night</div>
+	 <div ng-if="musicTrack==1">Fallacy's Theme</div>
+	 <div ng-if="musicTrack==2">???</div>
+	 <div ng-if="musicTrack==3">???</div>
 	</button>
 	
 	<button class="buttonGridStyle buttonHover" ng-click="toggleGrid()">
 	 Grid Style: 
 	 <div ng-if="showGrid==0">None</div>
 	 <div ng-if="showGrid==1">Thin</div>
-	 <div ng-if="showGrid==2">Thick</div>
+	 <div ng-if="showGrid==2">Medium</div>
+	 <div ng-if="showGrid==3">Thick</div>
 	</button>
 	
 	
@@ -35,13 +41,15 @@
 		<div ng-show="enemyHasPos($index)" class="hoverImage charDiv" id="enemy_{{$index}}_sprite">
 			<div class="charDiv" class="mapCharOffsetNone">
 				<img ng-src="{{enemy[44]}}" class="mapCharCentered">
-				<img ng-if="enemyHasNum($index)" ng-src="{{getEnemyNum($index)}}" class="enemyNum">
+				<img ng-if="enemyHasNum($index) && enemyHpDraw($index)" ng-src="{{getEnemyNum($index)}}" class="enemyNum">
+				<img ng-if="enemyHasNum($index) && !enemyHpDraw($index)" ng-src="{{getEnemyNum($index)}}" class="enemyNum" style="top:0px">
 				<img ng-if="enemyHasStatus($index)" ng-src="{{getEnemyStatus($index)}}" class="enemyNum">
 			</div>
 			<div ng-if="enemyHpDraw($index)" class="healthBarBack"></div>
 			<div ng-if="enemyHpDraw($index)" class="healthBarFront" ng-style="{width:((enemy[5]/enemy[4])*14)+'px','background-color': determineHPColor($index)}"></div>
 			<div ng-if="enemyHpDraw($index)" class="healthBarBorder"></div>
-			<div ng-if="enemyIsPaired($index)" class="pairUpIcon"><img src="IMG/shield_pairup.png"></div>
+			<div ng-if="enemyIsPaired($index) && enemyHpDraw($index)" class="pairUpIcon"><img src="IMG/shield_pairup.png"></div>
+			<div ng-if="enemyIsPaired($index) && !enemyHpDraw($index)" class="pairUpIcon"><img src="IMG/shield_pairup.png" class="enemyNum" style="top:3px"></div>
 			<!--<div ng-if="enemy[0]=='Ceal'" class="pairUpIcon"><img src="IMG/shield_boss.png"></div>-->
 			<!--<div ng-if="enemy[0]=='Outlaw (M)' || enemy[0] == 'Outlaw (F)'" class="enemyTalkBalloon"><img src="IMG/talk.gif"></div>-->
 		</div>
@@ -78,6 +86,18 @@
 			<span class="indentedEnemyStat">{{enemy[14]}}</span>
 		</div>
 		
+		<!--Battle Stats-->
+		<div class="infoElement darkTan tanText enemyBattlePos">
+			<span class="enemyBattleLabel" style="margin-left:15px; margin-top:4px">Att</span>
+			<span class="enemyBattleLabel" style="margin-left:113px; margin-top:4px">Hit</span>
+			<span class="enemyBattleLabel" style="margin-left:9px; margin-top:24px">Crit</span>
+			<span class="enemyBattleLabel" style="margin-left:113px; margin-top:24px">Avo</span>
+			<span class="indentedBattleStat" style="margin-left:42px; margin-top:1px">{{getEnemyAtt($index)}}</span>
+			<span class="indentedBattleStat" style="margin-left:150px; margin-top:1px">{{getEnemyHit($index)}}</span>
+			<span class="indentedBattleStat" style="margin-left:42px; margin-top:21px">{{getEnemyCrit($index)}}</span>
+			<span class="indentedBattleStat" style="margin-left:150px; margin-top:21px">{{getEnemyAvo($index)}}</span>
+		</div>
+		
 		<!--Experience-->
 		<div class="infoElement darkerTan tanText enemyExpPos">
 			<span class="enemyStatLabel">EXP</span>
@@ -104,19 +124,19 @@
 		
 		
 		<!--Skill Gems-->
-		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill1=true" ng-mouseleave="Skill1=false" style="margin-top:72px">
+		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill1=true" ng-mouseleave="Skill1=false" style="margin-top:119px">
 			<span ng-if="hasSkill($index, 18)" class="indentedEnemySkill">{{enemy[18][0]}}</span>
 		</div>
-		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill2=true" ng-mouseleave="Skill2=false" style="margin-top:97px">
+		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill2=true" ng-mouseleave="Skill2=false" style="margin-top:144px">
 			<span ng-if="hasSkill($index, 19)" class="indentedEnemySkill">{{enemy[19][0]}}</span>
 		</div>
-		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill3=true" ng-mouseleave="Skill3=false" style="margin-top:122px">
+		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill3=true" ng-mouseleave="Skill3=false" style="margin-top:169px">
 			<span ng-if="hasSkill($index, 20)" class="indentedEnemySkill">{{enemy[20][0]}}</span>
 		</div>
-		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill4=true" ng-mouseleave="Skill4=false" style="margin-top:147px">
+		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill4=true" ng-mouseleave="Skill4=false" style="margin-top:194px">
 			<span ng-if="hasSkill($index, 21)" class="indentedEnemySkill">{{enemy[21][0]}}</span>
 		</div>
-		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill5=true" ng-mouseleave="Skill5=false" style="margin-top:172px">
+		<div class="infoElement paleTan redText hoverTan enemyGemPos" ng-mouseenter="Skill5=true" ng-mouseleave="Skill5=false" style="margin-top:219px">
 			<span ng-if="hasSkill($index, 22)" class="indentedEnemySkill">{{enemy[22][0]}}</span>
 		</div>
 		

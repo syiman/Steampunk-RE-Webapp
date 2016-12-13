@@ -1,6 +1,6 @@
 .buttonMusicStyle{
 	position: absolute;
-	width: 125px; 
+	width: 145px; 
 	top: 595px;
 	left: 3px;
 	height: 32px;
@@ -17,11 +17,11 @@
 audio { 
 	position: absolute;
 	display: block; 
-	width: 312px;
+	width: 292px;
 	margin:0px; 
 	color: #808080!important;
 	top: 595px;
-	left: 128px;
+	left: 148px;
 	
 }
 
@@ -199,7 +199,11 @@ img{
 }
 
 .glowBoxBorder2{
-	border: 1px solid rgba(0, 0, 0, .5);
+	border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.glowBoxBorder3{
+	border: 1px solid rgba(0, 0, 0, .4);
 }
 
 .glowBox:hover{
