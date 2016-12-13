@@ -899,7 +899,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     function dragStart(event){
     	var style = window.getComputedStyle(event.target, null);
     	currDrag = event.target.id;
-        event.dataTransfer.setData("text/html",(parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY));
+        event.dataTransfer.setData("text",(parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY));
     };
     
     function dragOver(event){
@@ -913,7 +913,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     function dropDiv(event){
     	event.preventDefault();
-    	var data = event.dataTransfer.getData("text/html").split(',');
+    	var data = event.dataTransfer.getData("text").split(',');
 
     	var drag = document.getElementById(currDrag);
     	drag.style.left = (event.clientX + parseInt(data[0],10)) + 'px';

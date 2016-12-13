@@ -1,13 +1,10 @@
 <div id="dropArea" class="mapBox mainBackground">
 
-
-
-	<!-- <input type="text" my-enter="toggleGrid()">  -->
 	<img id="map" class="absolutePos" ng-src="{{map}}">
 	
 	<!--Draw tile names-->
 	<div ng-repeat="(yIndex,row) in rows" class="glowBoxIndent absolutePos" ng-style="{top: determineGlowY(yIndex)}">
-		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="({{column}},{{row}}) {{terrainData[column][row]}}" ng-class="{glowBoxBorder3:showGrid==3, glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
+		<div class="glowBox" ng-repeat="(indexX,column) in columns" title="({{column}},{{row}}) {{terrainData[column][row][0]}}: {{terrainData[column][row][1]}}🚶  {{terrainData[column][row][2]}}⛨" ng-class="{glowBoxBorder3:showGrid==3, glowBoxBorder2:showGrid==2, glowBoxBorder1:showGrid==1}" ng-style="{left: determineGlowX(indexX)}"></div>
 	</div>
 	
 	<img class="absolutePos" ng-src="{{getTimeOut()}}" style="top:512px">
@@ -19,9 +16,8 @@
 	</audio>
 	 
 	<button class="buttonMusicStyle buttonHover" ng-click="toggleMusic()">
-	 Music: 
-	 <div ng-if="musicTrack==0">Agustria Party Rock Night</div>
-	 <div ng-if="musicTrack==1">Fallacy's Theme</div>
+	 <div ng-if="musicTrack==0">Music: Agustria Party Rock Night</div>
+	 <div ng-if="musicTrack==1">Music: Fallacy's Theme</div>
 	 <div ng-if="musicTrack==2">???</div>
 	 <div ng-if="musicTrack==3">???</div>
 	</button>
@@ -34,10 +30,8 @@
 	 <div ng-if="showGrid==3">Thick</div>
 	</button>
 	
-	
-	
 	<!--Draw enemies-->
-	<div class="absolutePos charDiv" ng-style="{top: determineY($index), left: determineX($index)}" ng-repeat="enemy in enemyData" ng-click="toggleView($index)" id="enemy_{{$index}}">
+	<div class="absolutePos charDiv" title="({{enemy[32]}}) {{enemy[33][0]}}: {{enemy[33][1]}}🚶  {{enemy[33][2]}}⛨" ng-style="{top: determineY($index), left: determineX($index)}" ng-repeat="enemy in enemyData" ng-click="toggleView($index)" id="enemy_{{$index}}">
 		<div ng-show="enemyHasPos($index)" class="hoverImage charDiv" id="enemy_{{$index}}_sprite">
 			<div class="charDiv" class="mapCharOffsetNone">
 				<img ng-src="{{enemy[44]}}" class="mapCharCentered">
@@ -56,7 +50,7 @@
 	</div>
 
 	<!--ENEMY INFO BOX-->
-	<div ng-repeat="enemy in enemyData" class="enemyInfo" ng-style="{'background-color': determineInfoColor($index)}" ng-show="checkToggle($index)" id="enemy_{{$index}}_box">
+	<div ng-repeat="enemy in enemyData" class="enemyInfo" draggable="true" ng-style="{'background-color': determineInfoColor($index)}" ng-show="checkToggle($index)" id="enemy_{{$index}}_box">
 		<!--Buttons-->
 		<div class="absolutePos olive enemyBar">
 			<!--Close button-->
@@ -64,7 +58,7 @@
 				<img src="IMG/close.png">
 			</div>
 			<!--Pair-Up button-->
-			<div class="enemyBarButton hoverImage" ng-if="enemyIsPaired($index)" ng-click="toggleEnemyPair($index)" title="Switch to Paired Unit" style="right:20px">
+			<div class="enemyBarButton hoverImage" ng-if="enemyIsPaired($index)" title="Close" ng-click="toggleEnemyPair($index)" title="View Paired Unit" style="right:20px">
 				<img src="IMG/switchpairup.png">
 			</div>
 		</div>

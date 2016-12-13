@@ -7,7 +7,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     $scope.loadingIcon = pickLoadingIcon();
     $scope.loadingText = pickLoadingText();
     var bar = document.getElementById('progress'); 
-    var characterData, charImages, wIndex, charSkills, skillDescriptions, classStats, statusEffData, blurbs, terrain;
+    var characterData, charImages, wIndex, charSkills, skillDescriptions, classStats, statusEffData, blurbs, terrain, iTerrain;
     
     //Set div visibility
     var authorizeDiv = document.getElementById('authorize-div');
@@ -122,9 +122,22 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
       }).then(function(response) {
     	  wIndex = response.result.values;
 	      	updateProgressBar(); //update progress bar
-	      fetchSkillInfo();
+	      fetchTerrainIndex();
       });
     };
+    
+    function fetchTerrainIndex(){
+    	  //Fetch weapon information sheet
+    	  gapi.client.sheets.spreadsheets.values.get({
+           spreadsheetId: sheetId,
+           majorDimension: "ROWS",
+           range: 'Terrain Chart!A2:K',
+        }).then(function(response) {
+      	  iTerrain = response.result.values;
+  	      	updateProgressBar(); //update progress bar
+  	      fetchSkillInfo();
+        });
+      };
     
     //Fetch skills/descriptions for each character and append them
     function fetchSkillInfo(){
@@ -194,6 +207,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     function fetchTerrainChart(){
+    	var data = "";
     	  //Fetch terrain information sheet
     	  gapi.client.sheets.spreadsheets.values.get({
            spreadsheetId: sheetId,
@@ -206,15 +220,21 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	      for(var a = 0;a <= 32;a++){
 	    	terrainData.push([]);
 			for(var b = 0;b <= 32;b++)
-				terrainData[a].push("Plain");
+				terrainData[a].push(["Plain","0","0"]);
 	      }
       	  
       	  for(var i = 0;i < terrain.length;i++){
     		var tempColumn = parseInt(terrain[i][0].substring(0,terrain[i][0].indexOf(",")));
     		var tempRow = parseInt(terrain[i][0].substring(terrain[i][0].indexOf(",")+1,terrain.length));
     		
+        	for(var h = 0; h < iTerrain.length; h++){
+        		if(iTerrain[h][0] == terrain[i][1]){
+        			var j = h;
+        		}
+        	}
+        	
     		//if(tempColumn <= 32 && tempRow <= 32)
-    			terrainData[tempColumn][tempRow] = terrain[i][1];
+    			terrainData[tempColumn][tempRow] = [terrain[i][1],iTerrain[j][1], iTerrain[j][2]];
     		
       	  }
       	  
@@ -258,7 +278,11 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
      		
      		characterData[i][29] = statusUpdate(i);
      		
+     		characterData[i][33] = findTerrain(characterData[i][32]);
+     		
      		characterData[i].push(blurbs[i]);
+     		
+     		
      	 }
      	 
      	 DataService.setEnemies(characterData); //save compiled data
@@ -332,7 +356,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     function findWeapon(name){
     	if(name == "")
-    		return [name, "Unknown", "E", "0", "0", "0", "0", "0", "0", "0|0", "I'm a blank item!"];
+    		return [name, "Unknown", "?", "?", "?", "?", "?", "?", "?", "?|?", "Could not locate item. Please contact Deallocate"];
     	
     	//Remove parenthesis from end of name
     	if(name.indexOf("(") != -1)
@@ -343,6 +367,27 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		if(wIndex[i][0] == name)
     			return wIndex[i].slice();
     	return [name, "Unknown", "?", "?", "?", "?", "?", "?", "?", "?|?", "Could not locate item. Please contact Deallocate"];
+    };
+    
+    function findTerrain(name){
+    	var data = "";
+    	if(name == "")
+    		return ["Plain",0,0,"No Effect","No Info"];
+    	
+    	//Locate item
+    	for(var i = 0; i < terrain.length; i++){
+    		if(terrain[i][0] == name){
+    			data = terrain[i][1];
+    		}
+    	}
+    	for(var i = 0; i < iTerrain.length; i++){
+    		if(iTerrain[i][0] == data){
+    			return [iTerrain[i][0], iTerrain[i][1], iTerrain[i][2], iTerrain[i][9], iTerrain[i][10]];
+    		}
+    	}
+    	
+    	
+    	return ["Plain",0,0,"No Effect","No Info"];
     };
     
     function processImgUrl(str){
