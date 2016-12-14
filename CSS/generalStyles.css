@@ -96,7 +96,7 @@ img{
 }
 
 .hoverBlack:hover{
-	background-color: #969696!important;
+	background-color: #757575!important;
 }
 
 .hoverTan:hover{
@@ -104,7 +104,7 @@ img{
 }
 
 .hoverStatus:hover{
-	background-color: #757575!important;
+	background-color: #969696!important;
 }
 
 .healthBarBack{
@@ -251,6 +251,7 @@ img{
 .centerText{ text-align: center; }
 .rightText{ text-align: right; }
 .whiteText{ color: white; }
+.blackText{ color: #000000; }
 .redText{ color: #464646; }
 .tanText{ color: #ffffff; }
 .boldText{ font-weight: bold; }

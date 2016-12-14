@@ -51,6 +51,25 @@
 	background-color:dimgray;
 }
 
+.expBar{
+	position: absolute;
+	height: 3px;
+	top: 166px;
+	left: 282px;
+	bottom: -3px;
+	background-color:#c0c0c0;
+}
+
+.expBackground{
+	position: absolute;
+	width: 73px;
+	height: 3px;
+	top: 166px;
+	left: 282px;
+	bottom: -3px;
+	background-color:dimgray;
+}
+
 .indentedStatLabel{
 	position: absolute;
 	font-size:12px;

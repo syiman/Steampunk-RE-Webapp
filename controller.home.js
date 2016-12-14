@@ -521,6 +521,23 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	}
     };
     
+    $scope.calcExp = function(index){
+    	var exp = parseInt($scope.enemyData[index][17]);
+    	
+    	if($scope.enemyData[index][16] == "40")
+    		return "73px";
+    		
+    	return ((exp/100) * 73) + 'px'; //73 is the max number of pixels
+    };
+    
+    $scope.hasExp = function(index){
+    	
+    	if($scope.enemyData[index][17] == "-")
+    		return false;
+    		
+    	return true;
+    };
+    
     //Calculates the percentage of weapon proficicency for a specific weapon,
     //then returns the width of the progress bar in pixels
     $scope.calcWeaponExp = function(index, p){
@@ -727,7 +744,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     $scope.enemyHasStatus = function(index){
     	var status = $scope.enemyData[index][29][0];
-    	if(status != "None") return true;
+    	if(status != "None" && status != "Emerging" && status != "Defeated") return true;
     	else return false;
     };
     
@@ -759,25 +776,47 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     $scope.getEnemyAtt = function(index){
     	var power = $scope.enemyData[index][23][4];
-    	if(power == "-"){
+    	if(power == "-" || power == ""){
     		return "-";
     	}
-    	else if($scope.enemyData[index][23][1]=="Tome"||$scope.enemyData[index][23][1]=="Talisman"||$scope.enemyData[index][23][1]=="Relic"||$scope.enemyData[index][23][1]=="Staff"){
+    	power = parseInt(power);
+    	
+    	
+    	//S-rank power boost
+    	if($scope.enemyData[index][38]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][39])>=150)
+    		power +=1;
+    	if($scope.enemyData[index][40]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][41])>=150)
+    		power +=1;
+    	if($scope.enemyData[index][42]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][43])>=150)
+    		power +=1;
+    	
+    	
+    	if($scope.enemyData[index][23][1]=="Tome"||$scope.enemyData[index][23][1]=="Talisman"||$scope.enemyData[index][23][1]=="Relic"||$scope.enemyData[index][23][1]=="Staff"){
     		//magical
-    		return parseInt(power) + parseInt($scope.enemyData[index][7]);
+    		return power + parseInt($scope.enemyData[index][7]);
     	}
     	else{
     		//physical
-    		return parseInt(power) + parseInt($scope.enemyData[index][6]);
+    		return power + parseInt($scope.enemyData[index][6]);
     	}
     };
     
     $scope.getEnemyHit = function(index){
     	var hit = $scope.enemyData[index][23][5];
-    	if(hit == "-"){
+    	if(hit == "-" || hit == ""){
     		return "-";
     	}
-    	return Math.floor(parseInt(hit) + parseInt($scope.enemyData[index][8])*2 + parseInt($scope.enemyData[index][10])/2);
+    	
+    	hit = parseInt(hit);
+    	
+    	if($scope.enemyData[index][38]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][39])>=150)
+    		hit +=15;
+    	if($scope.enemyData[index][40]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][41])>=150)
+    		hit +=15;
+    	if($scope.enemyData[index][42]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][43])>=150)
+    		hit +=15;
+    	
+    	return Math.floor(hit + parseInt($scope.enemyData[index][8])*2 + parseInt($scope.enemyData[index][10])/2);
     	
     };
     
@@ -789,27 +828,25 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if($scope.enemyData[index][3][0]=="Berserker"||$scope.enemyData[index][3][0]=="Sniper"||$scope.enemyData[index][3][0]=="Swordsmaster"||$scope.enemyData[index][3][0]=="Halberdier"||$scope.enemyData[index][3][0]=="Savior")
     		bonus+=15;
     	
-    	if(crit == "-"){
+    	if(crit == "-" || crit == ""){
     		return "-";
     	}
-    		//physical
     		return Math.floor(parseInt(crit) + parseInt($scope.enemyData[index][8])/2 + bonus);
     };
     
     $scope.getEnemyAvo = function(index){
     	var speed = parseInt($scope.enemyData[index][9]);
-    	var loss = $scope.enemyData[index][23][6];
-    	if(loss == "-")
+    	var loss = $scope.enemyData[index][23][7];
+    	if(loss == "-" || loss == "" || loss == "andrew")
     		loss = 0;
     	else
     		loss = parseInt(loss);
-    	loss -= parseInt($scope.enemyData[index][13]);
+    	if ($scope.enemyData[index][13] != "-" && $scope.enemyData[index][13] != undefined && $scope.enemyData[index][13] != "")
+    		loss -= parseInt($scope.enemyData[index][13]);
     	if(loss < 0)
     		loss = 0;
     	speed -= loss;
-    	var terrainBonus = 0;
-    		//physical
-    		return speed + parseInt($scope.enemyData[index][10]) + terrainBonus;;
+    		return speed*2 + parseInt($scope.enemyData[index][10]) + parseInt($scope.enemyData[index][33][1]);
     };
     
     //***********************\\

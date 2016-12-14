@@ -1,7 +1,7 @@
 .enemyInfo{
 	position: absolute;
 	width:483px;
-	height:244px;
+	height:220px;
 	left:0px;
 	top:0px;
 	font-family: "Verdana";
@@ -35,8 +35,32 @@
 .enemyStatLabel{
 	position: absolute;
 	font-size:10px;
-	margin-left:15px;
+	margin-left:8px;
 	margin-top:4px;
+}
+
+.enemyExpLabel{
+	position: absolute;
+	font-size:12px;
+	margin-left:290px;
+	margin-top:149px;
+	color:white;
+}
+
+.enemyExpNum{
+	position: absolute;
+	font-size:12px;
+	margin-left:329px;
+	margin-top:149px;
+	color:white;
+}
+
+.enemyTerrainLabel{
+	position: absolute;
+	font-size:10px;
+	margin-left:8px;
+	margin-top:3px;
+	color: white;
 }
 
 .enemyBattleLabel{
@@ -55,7 +79,13 @@
 
 .indentedEnemyStat{
 	position: absolute;
-	margin-left:50px;
+	margin-left:54px;
+	margin-top:1px;
+}
+
+.indentedEnemyHPStat{
+	position: absolute;
+	margin-left:30px;
 	margin-top:1px;
 }
 
@@ -67,26 +97,20 @@
 
 .indentedExp{
 	position: absolute;
-	margin-left:45px;
+	margin-left:53px;
 	margin-top:1px;
 }
 
 .indentedGold{
 	position: absolute;
-	font-size:10px;
+	font-size:11px;
 	margin-left:30px;
-	margin-top:4px;
+	margin-top:3px;
 }
 
 .indentedStatus{
 	position: absolute;
 	margin-left:86px;
-	margin-top:1px;
-}
-
-.indentedEnemyHPStat{
-	position: absolute;
-	margin-left:42px;
 	margin-top:1px;
 }
 
@@ -148,19 +172,19 @@
 
 .enemyBattlePos{
 	width:185px;
-	height:40px;
+	height:42px;
 	margin-left:5px;
-	margin-top:73px;
+	margin-top:48px;
 }
 
-.enemyHpMovPos{
-	margin-top:48px;
+.enemyMovPos{
+	margin-top:197px;
 	height:19px;
 }
 
 .enemyExpPos{
-	margin-left:280px;
-	width:79px;
+	margin-left:270px;
+	width:89px;
 	margin-top:149px;
 	height:19px;
 }
@@ -178,6 +202,14 @@
 	margin-top:173px;
 	height:19px;
 }
+
+.enemyTerrainPos{
+	margin-left:365px;
+	width:110px;
+	margin-top:197px;
+	height:19px;
+}
+
 
 .enemyShieldsPos{
 	margin-left:5px;
@@ -201,7 +233,7 @@
 .enemyBlurbPos{
 	margin-left:152px;
 	width:326px;
-	height:204px;
+	height:211px;
 }
 
 .enemyStatusPopPos{
@@ -226,7 +258,7 @@
 	font-size:12px;
 	margin-left:35px;
 	width:240px;
-	height:140px;
+	height:145px;
 }
 
 .enemyWeaponRankPos{
@@ -266,7 +298,7 @@
 }
 
 .itemNotesPos{
-	top:90px;
+	top:95px;
 }
 
 .customDivider{

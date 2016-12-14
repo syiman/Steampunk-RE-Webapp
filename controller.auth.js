@@ -57,6 +57,8 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     function pickLoadingIcon(){
+    	
+    	return "IMG/loadingImage.gif";
     	var rand = Math.floor((Math.random() * 11) + 1); //generate a number between one and twelve
     	switch(rand){
 	    	case 1: return "IMG/gif_1.gif"; break;
