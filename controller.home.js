@@ -748,6 +748,18 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	else return false;
     };
     
+    $scope.enemyHasStatusU = function(index){
+    	var status = $scope.enemyData[index][29][0];
+    	if(status != "None" && status != "Emerging" && status != "Defeated") return $scope.enemyData[index][30];
+    	else return 0;
+    };
+    
+    $scope.enemyOwnsGold = function(index){
+    	var gold = $scope.enemyData[index][15];
+    	if(gold != "-" && gold != "" && gold != undefined) return true;
+    	else return false;
+    };
+    
     //Parses an enemy's name to see if it contains a number at the end.
     //If it does, it returns that number
     $scope.getEnemyNum = function(index){
@@ -779,8 +791,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if(power == "-" || power == ""){
     		return "-";
     	}
-    	power = parseInt(power);
     	
+    	power = parseInt(power);
     	
     	//S-rank power boost
     	if($scope.enemyData[index][38]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][39])>=150)
@@ -790,8 +802,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if($scope.enemyData[index][42]==$scope.enemyData[index][23][1]&&parseInt($scope.enemyData[index][43])>=150)
     		power +=1;
     	
-    	
-    	if($scope.enemyData[index][23][1]=="Tome"||$scope.enemyData[index][23][1]=="Talisman"||$scope.enemyData[index][23][1]=="Relic"||$scope.enemyData[index][23][1]=="Staff"){
+    	var weapon = $scope.enemyData[index][23][1];
+    	if(weapon=="Tome"||weapon=="Talisman"||weapon=="Relic"||weapon=="Staff"){
     		//magical
     		return power + parseInt($scope.enemyData[index][7]);
     	}
@@ -817,36 +829,42 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		hit +=15;
     	
     	return Math.floor(hit + parseInt($scope.enemyData[index][8])*2 + parseInt($scope.enemyData[index][10])/2);
-    	
     };
     
     $scope.getEnemyCrit = function(index){
     	var crit = $scope.enemyData[index][23][6];
+    	var cls = $scope.enemyData[index][3][0];
     	var bonus = 0;
-    	if($scope.enemyData[index][3][0]=="Assassin"||$scope.enemyData[index][3][0]=="Rogue"||$scope.enemyData[index][3][0]=="Shepard")
+    	
+    	if(cls=="Assassin"||cls=="Rogue"||cls=="Shepherd")
     		bonus+=10;
-    	if($scope.enemyData[index][3][0]=="Berserker"||$scope.enemyData[index][3][0]=="Sniper"||$scope.enemyData[index][3][0]=="Swordsmaster"||$scope.enemyData[index][3][0]=="Halberdier"||$scope.enemyData[index][3][0]=="Savior")
+    	else if(cls=="Berserker"||cls=="Sniper"||cls=="Swordsmaster"||cls=="Halberdier"||cls=="Savior")
     		bonus+=15;
     	
-    	if(crit == "-" || crit == ""){
-    		return "-";
-    	}
-    		return Math.floor(parseInt(crit) + parseInt($scope.enemyData[index][8])/2 + bonus);
+    	if(crit == "-" || crit == ""){ return "-"; }
+    	else return Math.floor(parseInt(crit) + parseInt($scope.enemyData[index][8])/2 + bonus);
     };
     
     $scope.getEnemyAvo = function(index){
     	var speed = parseInt($scope.enemyData[index][9]);
     	var loss = $scope.enemyData[index][23][7];
+    	
     	if(loss == "-" || loss == "" || loss == "andrew")
     		loss = 0;
     	else
     		loss = parseInt(loss);
+    	
     	if ($scope.enemyData[index][13] != "-" && $scope.enemyData[index][13] != undefined && $scope.enemyData[index][13] != "")
     		loss -= parseInt($scope.enemyData[index][13]);
     	if(loss < 0)
     		loss = 0;
     	speed -= loss;
-    		return speed*2 + parseInt($scope.enemyData[index][10]) + parseInt($scope.enemyData[index][33][1]);
+    	
+    	var avoBonus = $scope.enemyData[index][33][1];
+    	if(avoBonus == "-") avoBonus = 0;
+    	else avoBonus = parseInt(avoBonus);
+    	
+    	return speed*2 + parseInt($scope.enemyData[index][10]) + avoBonus;
     };
     
     //***********************\\

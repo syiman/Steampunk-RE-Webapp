@@ -231,14 +231,26 @@
 }
 
 .enemyBlurbPos{
-	margin-left:152px;
-	width:326px;
+	margin-left:150px;
+	width:328px;
 	height:211px;
 }
 
 .enemyStatusPopPos{
-	margin-left:184px;
-	width:175px;
+	margin-left:183px;
+	width:176px;
+	height:82px;
+}
+
+.enemyTerrainPopPos{
+	margin-left:183px;
+	width:176px;
+	height:94px;
+}
+
+.enemyGoldPopPos{
+	margin-left:100px;
+	width:176px;
 	height:82px;
 }
 

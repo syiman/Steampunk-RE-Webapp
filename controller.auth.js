@@ -49,6 +49,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
             range: 'Current Map!A1',
           }).then(function(response) {
         	  var url = response.result.values[0][0];
+        	  updateProgressBar();
         	  DataService.setMap(processImgUrl(url));
         	  //updateProgressBar(); //update progress bar
         	  fetchCharacterData();
@@ -59,7 +60,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     function pickLoadingIcon(){
     	
     	return "IMG/loadingImage.gif";
-    	var rand = Math.floor((Math.random() * 11) + 1); //generate a number between one and twelve
+    	/*var rand = Math.floor((Math.random() * 11) + 1); //generate a number between one and twelve
     	switch(rand){
 	    	case 1: return "IMG/gif_1.gif"; break;
 	    	case 2: return "IMG/gif_2.gif"; break;
@@ -72,7 +73,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	    	case 9: return "IMG/gif_10.gif"; break;
 	    	case 10: return "IMG/gif_11.gif"; break;
 	    	case 11: return "IMG/gif_12.gif"; break;
-    	}
+    	}*/
     };
     
     function pickLoadingText(){
@@ -99,6 +100,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
         range: 'Stats!A1:44',
       }).then(function(response) {
     	 characterData = response.result.values;
+    	 updateProgressBar();
     	 fetchCharacterBlurb();
       });
     };
@@ -286,7 +288,6 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
      		
      		
      	 }
-     	 
      	 DataService.setEnemies(characterData); //save compiled data
     };
 
@@ -358,7 +359,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     function findWeapon(name){
     	if(name == "")
-    		return [name, "Unknown", "?", "?", "?", "?", "?", "?", "?", "?|?", "Could not locate item. Please contact Deallocate"];
+    		return [name, "Unknown", "-", "-", "-", "-", "-", "-", "-", "-|-", "Could not locate item. Please contact Deallocate"];
     	
     	//Remove parenthesis from end of name
     	if(name.indexOf("(") != -1)
@@ -368,13 +369,13 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	for(var i = 0; i < wIndex.length; i++)
     		if(wIndex[i][0] == name)
     			return wIndex[i].slice();
-    	return [name, "Unknown", "?", "?", "?", "?", "?", "?", "?", "?|?", "Could not locate item. Please contact Deallocate"];
+    	return [name, "Unknown", "-", "-", "-", "-", "-", "-", "-", "-|-", "Could not locate item. Please contact Deallocate"];
     };
     
     function findTerrain(name){
     	var data = "";
     	if(name == "")
-    		return ["Plain",0,0,"No Effect","No Info"];
+    		return ["Plain",0,0,"No effect.","Flat terrain which gives neither side the advantage in battle."];
     	
     	//Locate item
     	for(var i = 0; i < terrain.length; i++){
@@ -389,7 +390,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	}
     	
     	
-    	return ["Plain",0,0,"No Effect","No Info"];
+    	return ["Plain",0,0,"No effect.","Flat terrain which gives neither side the advantage in battle."];
     };
     
     function processImgUrl(str){
@@ -413,7 +414,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     //Increments the progress bar by %
     function updateProgressBar(){
-    	bar.value = bar.value + 14.2;
+    	bar.value = bar.value + 9.09;
     };
 
     //Redirect user to the map page once data has been loaded
