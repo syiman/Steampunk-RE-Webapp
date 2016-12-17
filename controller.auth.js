@@ -79,16 +79,16 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     function pickLoadingText(){
     	var rand = Math.floor((Math.random() * 10) + 1);
     	switch(rand){
-	    	case 1: return "Fetching map data..."; break;
-	    	case 2: return "Trying hard to not crash..."; break;
-	    	case 3: return "Totally not hacking your PC..."; break;
+	    	case 1: return "Loading map data..."; break;
+	    	case 2: return "Trying to not crash..."; break;
+	    	case 3: return "They see me loading..."; break;
 	    	case 4: return "Installing virus.exe..."; break;
 	    	case 5: return "ERROR: 404     (jk)"; break;
 	    	case 6: return "Handing enemies pointy weapons..."; break;
 	    	case 7: return "Soon (TM)"; break;
 	    	case 8: return "Fixing stuff IronPegasus broke..."; break;
 	    	case 9: return "Breaking the game balance even more..."; break;
-	    	case 10: return "Loading..."; break;
+	    	case 10: return "Rotating pointless image..."; break;
     	}
     };
 

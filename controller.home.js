@@ -2,7 +2,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	$scope.rows = ["1"];
     $scope.columns = ["1"];
     $scope.showGrid = 1;
-    $scope.musicTrack = 0;
+    $scope.musicTrack = 1;
     var numDefeat = 0;
     var rowTimer = $interval(calcNumRows, 250, 20); //attempt to get rows 20 times at 250 ms intervals (total run: 5 sec)
     var colTimer = $interval(calcNumColumns, 250, 20);

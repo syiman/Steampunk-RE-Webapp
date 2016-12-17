@@ -11,18 +11,26 @@
 
 .authBox{
 	position:absolute;
-	height:400px;
-	width:800px;
+	height:200px;
+	width:750px;
 	top: 50%;
 	left: 50%;
 	margin-left: -400px;
-	margin-top: -200px;
+	margin-top: -80px;
+}
+
+.authImage{
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -280px;
+	margin-top: -325px;
 }
 
 .authBoxBlurred{
 	filter: blur(15px);
-	opacity: 0.8;
-	background-color: grey;
+	opacity: 0.4;
+	background-color: #ffffff;
 }
 
 .authText{
@@ -31,20 +39,20 @@
 	height:138px;
 	left: 50%;
 	margin-left: -360px;
-	margin-top: 115px;
+	margin-top: 5px;
 	text-align: center;
 }
 
 .displayLoading{
 	font-family: "Verdana";
-	font-size:14px;
+	font-size:16px;
 	position:relative;
 	height:50px;
-	width:300px;
-	margin-left: 250px;
-	margin-top: 175px;
+	width:500px;
+	margin-left: 125px;
+	margin-top: 50px;
 	text-align:center;
-	color: #ffffff;
+	color: black;
 }
 
 .authButton{
@@ -53,16 +61,16 @@
 	height: 35px;
 	left: 50%;
 	margin-left: -50px;
-	margin-top: 25px;
+	margin-top: -5px;
  	border-radius: 10px;
  	border: 0px;
  	box-shadow: none;
- 	background-color: #220028;
+ 	background-color: #000000;
  	color: white;
 }
 
 .authButton:hover{
-	background-color: #7B009F;
+	background-color: #ff0000;
 	cursor: pointer;
 }
 
@@ -79,46 +87,13 @@ progress::-webkit-progress-bar{
 }
 
 progress::-webkit-progress-value {
-	background-color: #220028;
+	background-color: #000000;
 	border-radius:5px;
 }
 
 progress::-moz-progress-bar {
-	background-color: #220028;
+	background-color: #000000;
 	border-radius:5px;
-}
-
-.surveyButton{
-	position:fixed;
-	border-radius:50%;
-	border: 0px;
-	box-shadow:none;
- 	background-color: #0063a7;
- 	color: white;
- 	font-size:20px;
-	height:60px;
-	width:60px;
-	bottom:20px;
-	right:20px;
-}
-
-.surveyButton:hover{
-	background-color: #0099ff;
-	cursor: pointer;
-}
-
-.surveyFlag{
-	position:fixed;
-	border-radius:10px;
-	background-color: white;
- 	color: #0063a7;
-	font-family: "Verdana";
- 	font-size:12px;
- 	text-align:center;
-	height:40px;
-	width:200px;
-	bottom:30px;
-	right:100px;
 }
 
 .stretchLeft{
