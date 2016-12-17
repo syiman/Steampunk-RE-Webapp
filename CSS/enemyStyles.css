@@ -84,9 +84,10 @@
 }
 
 .indentedEnemyHPStat{
-	position: absolute;
-	margin-left:30px;
+	margin-right:8px;
 	margin-top:1px;
+	display:block;
+	text-align: right;
 }
 
 .indentedBattleStat{

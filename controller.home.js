@@ -233,8 +233,12 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	}
     	
     	//Toggle visibility
-    	$scope.toggleView(index);
-    	$scope.toggleView(inc);
+    	var id = 'viewInfo_' + index;
+    	$scope[id] = !$scope[id];
+    	
+    	id = 'viewInfo_' + inc;
+    	if ($scope[id] == undefined) { $scope[id] = true; }
+    	else { $scope[id] = !$scope[id]; }
     	
     	var currBox = document.getElementById('enemy_' + index + '_box');
     	var pairBox = document.getElementById('enemy_' + inc + '_box');
