@@ -140,7 +140,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Units in the back of a pair up should have a coordinate of ""
     $scope.enemyHasPos = function(index){
     	if($scope.enemyData[index][33-1]=="Defeated"){
-    		return 1;
+    		return 2;
     	}
     	return $scope.enemyData[index][33-1].indexOf(",") != -1;
     };
@@ -901,7 +901,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	var pos = $scope.enemyData[index][33-1];
     	if(pos == "Defeated"){
     		numDefeat +=1;
-    		return (35+Math.floor((numDefeat-1)/30))*16-16+"px";
+    		return (34+Math.floor((numDefeat-1)/30))*16-16+"px";
     	}
     	var comma = pos.indexOf(",");
     	if(comma == -1) return "-1px";

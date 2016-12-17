@@ -241,7 +241,7 @@
 		</div>
 		
 		<!--Status Effect Info Boxes-->
-		<div ng-if="StatusOver" class="infoElement green whiteText enemyStatusPopPos" style="margin-top:134px">
+		<div ng-if="StatusOver" class="infoElement green whiteText enemyStatusPopPos" style="margin-top:121px">
 			<span class="enemyStatusPopLabel"><b>{{getEnemyStatusType($index)}}</b>
 			<span ng-if="enemyHasStatusU($index)>1"><b> for {{enemy[30]}} turns</b></span>
 			<span ng-if="enemyHasStatusU($index)==1"><b> for {{enemy[30]}} turn</b></span>
@@ -252,7 +252,7 @@
 		</div>
 		
 		<!--Terrain Info Boxes-->
-		<div ng-if="TerrainOver" class="infoElement green whiteText enemyTerrainPopPos" style="margin-top:122px">
+		<div ng-if="TerrainOver" class="infoElement green whiteText enemyTerrainPopPos" style="margin-top:121px">
 			<span class="enemyStatusPopLabel"><b>{{enemy[33][0]}}</b>
 			<br>
 			<span> Avoid Modifier: {{enemy[33][1]}}<br></span>

@@ -337,6 +337,10 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     function statusUpdate(id){  
     	name = characterData[id][29];
+    	
+    	if(characterData[id][32]=="Defeated"){
+    		name = "Defeated"
+    	}
 
     	for(var i = 0;i < statusEffData.length;i++){
     		if(statusEffData[i][0]==name){
@@ -376,6 +380,9 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	var data = "";
     	if(name == "")
     		return ["Plain",0,0,"No effect.","Flat terrain which gives neither side the advantage in battle."];
+    	
+    	if(name == "Defeated")
+    		data = "Unknown"
     	
     	//Locate item
     	for(var i = 0; i < terrain.length; i++){
