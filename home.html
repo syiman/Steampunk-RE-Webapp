@@ -91,7 +91,7 @@
 		<!--Status-->
 		<div class="infoElement darkTan tanText enemyStatusPos hoverStatus" ng-mouseenter="StatusOver=true" ng-mouseleave="StatusOver=false">
 			<span class="enemyStatLabel">{{getEnemyStatusType($index)}}</span>
-			<span class="indentedStatus">{{enemy[30]}}</span>
+			<span ng-if="enemyHasStatus($index)" class="indentedStatus">{{enemy[30]}}</span>
 		</div>
 		
 		<!--Terrain-->

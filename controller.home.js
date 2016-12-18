@@ -113,8 +113,13 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	y = parseInt(y.substring(0, y.length));
     	
     	x += 21; 
-    	if(y < 100) y += 20;
-    	else y -= 80;
+    	//x=524;
+    	y -= 80;
+    	if(y < 32)
+    		y = 32;
+    	if(y > 398)
+    		y = 398;
+    
     	
     	box.style.left = x + 'px';
     	box.style.top = y + 'px';
@@ -739,6 +744,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     $scope.enemyHasNum = function(index){
     	var name = $scope.enemyData[index][0];
+    	if(name == "Boss" || name == "Scheme" || name == "Slammer")
+    		return true;
     	if(name.lastIndexOf(" ") == -1 || name == undefined)
     		return false;
     	name = name.substring(name.lastIndexOf(" ")+1, name.length);
@@ -768,6 +775,8 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //If it does, it returns that number
     $scope.getEnemyNum = function(index){
     	var name = $scope.enemyData[index][0];
+    	if(name == "Boss" || name == "Scheme" || name == "Slammer")
+    		return "IMG/shield_boss.png";
     	name = name.substring(name.lastIndexOf(" ")+1, name.length);
     	return "IMG/num_" + name + ".png";
     };
