@@ -12,15 +12,16 @@
 	<img class="absolutePos" ng-src="{{getTimeOut()}}" style="top:512px">
 	
 	<audio id = 'audio' controls loop>
-  		<source ng-if="musicTrack==0" src="MUS/musicAgustria.mp3" type="audio/mpeg">
-  		<source ng-if="musicTrack==1" src="MUS/themeFallacy.mp3" type="audio/mpeg">
+  		<source ng-if="musicTrack==0" src="MUS/themeFallacy.mp3" type="audio/mpeg">
+  		<source ng-if="musicTrack==1" src="MUS/themeDolour.mp3" type="audio/mpeg">
+  		<source ng-if="musicTrack==2" src="MUS/musicAgustria.mp3" type="audio/mpeg">
 		Your browser does not support the audio element.
 	</audio>
 	 
 	<button class="buttonMusicStyle buttonHover" ng-click="toggleMusic()">
-	 <div ng-if="musicTrack==0">Music: Agustria Party Rock Night</div>
-	 <div ng-if="musicTrack==1">Music: Fallacy's Theme</div>
-	 <div ng-if="musicTrack==2">???</div>
+	 <div ng-if="musicTrack==0">Music: Fallacy's Theme</div>
+	 <div ng-if="musicTrack==1">Music: Dolour's Theme</div>
+	 <div ng-if="musicTrack==2">Music: Agustria Party Rock Night</div>
 	 <div ng-if="musicTrack==3">???</div>
 	</button>
 	
