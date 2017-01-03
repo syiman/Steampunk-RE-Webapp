@@ -77,7 +77,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     function pickLoadingText(){
-    	var rand = Math.floor((Math.random() * 10) + 1);
+    	var rand = Math.floor((Math.random() * 13) + 1);
     	switch(rand){
 	    	case 1: return "Loading map data..."; break;
 	    	case 2: return "Trying to not crash..."; break;
@@ -89,6 +89,10 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	    	case 8: return "Fixing stuff IronPegasus broke..."; break;
 	    	case 9: return "Breaking the game balance even more..."; break;
 	    	case 10: return "Rotating pointless image..."; break;
+	    	case 11: return "Distributing ice to Damian's victims..."; break;
+	    	case 12: return "Praising the Son..."; break;//
+	    	case 13: return "Administering hug to Raphael..."; break;//
+	    	
     	}
     };
 

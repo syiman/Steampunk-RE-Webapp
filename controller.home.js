@@ -672,6 +672,25 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	if(name.indexOf("(")!=-1){
     		name = name.substring(0,name.indexOf("(")-1);
     	}
+    	if(name.indexOf("wind")!=-1 || name == "Rexcalibur"){
+    		return "IMG/type_tome_wind.png";
+    	}
+    	if(name.indexOf("fire")!=-1 || name == "Bolganone"){
+    		return "IMG/type_tome_fire.png";
+    	}
+    	if(name.indexOf("thunder")!=-1 || name == "Thoron" || name == "Torden"){
+    		return "IMG/type_tome_thunder.png";
+    	}
+    	if(name.indexOf("freeze")!=-1 || name == "Nilflheim"){
+    		return "IMG/type_tome_freeze.png";
+    	}
+    	if(name.indexOf("dark")!=-1 || name == "Shadow Shot" || name == "Venom Shot"){
+    		return "IMG/type_tome_dark.png";
+    	}
+    	if(name.indexOf("light")!=-1 || name == "Nilflheim"){
+    		return "IMG/type_tome_light.png";
+    	}
+    	
     	
     	if(name == "Turkey"){
     		return "IMG/Items/item_turkey.png";
@@ -744,7 +763,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     
     $scope.enemyHasNum = function(index){
     	var name = $scope.enemyData[index][0];
-    	if(name == "Boss" || name == "Scheme" || name == "Slammer")
+    	if(name == "Boss" || name == "Scheme" || name == "Slam")
     		return true;
     	if(name.lastIndexOf(" ") == -1 || name == undefined)
     		return false;
@@ -862,7 +881,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	var speed = parseInt($scope.enemyData[index][9]);
     	var loss = $scope.enemyData[index][23][7];
     	
-    	if(loss == "-" || loss == "" || loss == "andrew")
+    	if(loss == "-" || loss == "")
     		loss = 0;
     	else
     		loss = parseInt(loss);
