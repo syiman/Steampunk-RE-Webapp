@@ -673,34 +673,58 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		name = name.substring(0,name.indexOf("(")-1);
     	}
     	if(name.indexOf("wind")!=-1 || name == "Rexcalibur"){
-    		return "IMG/type_tome_wind.png";
+    		return "IMG/Items/type_tome_wind.png";
     	}
     	if(name.indexOf("fire")!=-1 || name == "Bolganone"){
-    		return "IMG/type_tome_fire.png";
+    		return "IMG/Items/type_tome_fire.png";
     	}
     	if(name.indexOf("thunder")!=-1 || name == "Thoron" || name == "Torden"){
-    		return "IMG/type_tome_thunder.png";
+    		return "IMG/Items/type_tome_thunder.png";
     	}
     	if(name.indexOf("freeze")!=-1 || name == "Nilflheim"){
-    		return "IMG/type_tome_freeze.png";
+    		return "IMG/Items/type_tome_freeze.png";
     	}
     	if(name.indexOf("dark")!=-1 || name == "Shadow Shot" || name == "Venom Shot"){
-    		return "IMG/type_tome_dark.png";
+    		return "IMG/Items/type_tome_dark.png";
     	}
     	if(name.indexOf("light")!=-1 || name == "Nilflheim"){
-    		return "IMG/type_tome_light.png";
+    		return "IMG/Items/type_tome_light.png";
     	}
     	
+    	if(name == "Dagger" || name == "Throwing Sword" || name == "Kukri" || name == "Kodachi" || name == "Effervescence" || name == "Esurience"){
+    		return "IMG/Items/type_sword_dagger.png";
+    	}
+    	if(name.indexOf("blade")!=-1){
+    		return "IMG/Items/type_sword_blade.png";
+    	}
+    	if(name == "Javelin" || name == "Short Spear" || name == "Spear" || name == "Nageyari"){
+    		return "IMG/Items/type_lance_javelin.png";
+    	}
+    	if(name.indexOf("greatlance")!=-1){
+    		return "IMG/Items/type_lance_greatlance.png";
+    	}
+    	if(name == "Hatchet" || name == "Hand Axe" || name == "Short Axe" || name == "Tomahawk"){
+    		return "IMG/Items/type_axe_hatchet.png";
+    	}
+    	if(name.indexOf("poleaxe")!=-1){
+    		return "IMG/Items/type_lance_poleaxe.png";
+    	}
+    	if(name.indexOf("shortaxe")!=-1){
+    		return "IMG/Items/type_bow_shortbow.png";
+    	}
+    	if(name.indexOf("longaxe")!=-1){
+    		return "IMG/Items/type_bow_longbow.png";
+    	}
     	
     	if(name == "Turkey"){
     		return "IMG/Items/item_turkey.png";
     	}
     	if(name == "Door Key" || name == "Chest Key" || name == "Master Key"){
-    		return "IMG/type_key.png";
+    		return "IMG/Items/type_key.png";
     	}
     	
     	type = type.toLowerCase();
-    	return "IMG/type_" + type + ".png";
+    	return "IMG/Items/type_" + type + ".png";
     };
    
     //Returns the image for a character's skill, if they're at the minimum
