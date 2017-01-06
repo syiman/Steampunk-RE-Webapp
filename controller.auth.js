@@ -3,7 +3,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     $scope.ready = false;
     var terrainData = [];
     var checkGapi = $interval(checkAuth, 250);
-    var sheetId = '16z6l4rfiOPMszGe3sWg1fRylMzD8D_Qld_HgfYyyu5g';
+    var sheetId = '1mcRF3jqVMOkmRNqB6O5pQTasZPOhpamvkymprDTa1Y0';
     $scope.loadingIcon = pickLoadingIcon();
     $scope.loadingText = pickLoadingText();
     var bar = document.getElementById('progress'); 
@@ -32,7 +32,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     //Initiate auth flow in response to user clicking authorize button.
     $scope.loadAPI = function(event) {
     	gapi.client.init({
-    		'apiKey': id, 
+    		'apiKey': 'AIzaSyBSZCbIyuHl7oGCMN28ww550AYIpsr3S_w', //id
     		'discoveryDocs': ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
     	}).then(function(){
     		authorizeDiv.style.display = 'none';
@@ -77,7 +77,7 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     };
     
     function pickLoadingText(){
-    	var rand = Math.floor((Math.random() * 13) + 1);
+    	var rand = Math.floor((Math.random() * 10) + 1);
     	switch(rand){
 	    	case 1: return "Loading map data..."; break;
 	    	case 2: return "Trying to not crash..."; break;
@@ -89,10 +89,6 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
 	    	case 8: return "Fixing stuff IronPegasus broke..."; break;
 	    	case 9: return "Breaking the game balance even more..."; break;
 	    	case 10: return "Rotating pointless image..."; break;
-	    	case 11: return "Distributing ice to Damian's victims..."; break;
-	    	case 12: return "Praising the Son..."; break;//
-	    	case 13: return "Administering hug to Raphael..."; break;//
-	    	
     	}
     };
 
