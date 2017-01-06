@@ -283,7 +283,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	//Determine appropriate indicies for stat being evaluated (passed string)
     	switch(stat){
 	    	case "str": debuff = 19; weaponBuff = 45; pairUp = 59; break;
-	    	case "mag": debuff = 20; weaponBuff = 46; pairUp = 60; break;
+	    	case "sci": debuff = 20; weaponBuff = 46; pairUp = 60; break;
 	    	case "skl": debuff = 21; weaponBuff = 47; pairUp = 61; break;
 	    	case "spd": debuff = 22; weaponBuff = 48; pairUp = 62; break;
 	    	case "lck": debuff = 23; weaponBuff = 49; pairUp = 63; break;
@@ -378,7 +378,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	//Determine appropriate indicies for stat being evaluated (passed string)
     	switch(stat){
 	    	case "str": debuff = 16; weaponBuff = 59; pairUp = 66; break;
-	    	case "mag": debuff = 17; weaponBuff = 60; pairUp = 67; break;
+	    	case "sci": debuff = 17; weaponBuff = 60; pairUp = 67; break;
 	    	case "skl": debuff = 18; weaponBuff = 61; pairUp = 68; break;
 	    	case "spd": debuff = 19; weaponBuff = 62; pairUp = 69; break;
 	    	case "lck": debuff = 20; weaponBuff = 63; pairUp = 70; break;
@@ -451,7 +451,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     	
     	switch(stat){
 	    	case "str": total = 7; break;
-	    	case "mag": total = 8; break;
+	    	case "sci": total = 8; break;
 	    	case "skl": total = 9; break;
 	    	case "spd": total = 10; break;
 	    	case "lck": total = 11; break;
@@ -859,7 +859,7 @@ app.controller('HomeCtrl', ['$scope', '$location', '$interval', 'DataService', f
     		power +=1;
     	
     	var weapon = $scope.enemyData[index][23][1];
-    	if(weapon=="Tome"||weapon=="Talisman"||weapon=="Relic"||weapon=="Staff"){
+    	if(weapon=="Vial"||weapon=="Trick"||weapon=="Drone"||weapon=="Syringe"){
     		//magical
     		return power + parseInt($scope.enemyData[index][7]);
     	}
