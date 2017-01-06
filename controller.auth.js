@@ -79,16 +79,16 @@ app.controller('AuthCtrl', ['$scope', '$location', '$interval', 'DataService', f
     function pickLoadingText(){
     	var rand = Math.floor((Math.random() * 10) + 1);
     	switch(rand){
-	    	case 1: return "Loading map data..."; break;
-	    	case 2: return "Trying to not crash..."; break;
-	    	case 3: return "They see me loading..."; break;
-	    	case 4: return "Installing virus.exe..."; break;
-	    	case 5: return "ERROR: 404     (jk)"; break;
-	    	case 6: return "Handing enemies pointy weapons..."; break;
-	    	case 7: return "Soon (TM)"; break;
-	    	case 8: return "Fixing stuff IronPegasus broke..."; break;
-	    	case 9: return "Breaking the game balance even more..."; break;
-	    	case 10: return "Rotating pointless image..."; break;
+	    	case 1: return "Being passiveaggressive to Deallocate in Dms..."; break;
+	    	case 2: return "Trying to not cry..."; break;
+	    	case 3: return "Deleting evidenceiamatalentlesshack.txt..."; break;
+	    	case 4: return "Putting name on webapp..."; break;
+	    	case 5: return "Whistling Casually..."; break;
+	    	case 6: return "Fixing a bug Deallocate intentionally left in..."; break;
+	    	case 7: return "Staring at loading bar..."; break;
+	    	case 8: return "Being the edgy team..."; break;
+	    	case 9: return "Pointlessly trying to draw up hype..."; break;
+	    	case 10: return "Staring into mug of coffee..."; break;
     	}
     };
 
